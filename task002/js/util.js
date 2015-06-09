@@ -251,44 +251,109 @@ function getPosition(element) {
 }
 
 // 实现一个简单的Query，好难啊,尚未实现！！！！！！！！
-function $(selector) {
+function $(selector, eleScope) {
   var root = window.document;
+  var SELECTOR_ERROR = 'only accept a valid string',
+    cn = '', // 临时变量
+    elArr = []; // 元素集合
 
-  // 处理空格字符串的问题和空字符串
-  if (/\s/.test(selector) && selector) {
-    throw new TypeError('only accept a valid string');
-  }
+  if (typeof selector === 'string') {
 
-  // 处理id
-  if (/^#.+$/.test(selector)) {
-    return root.getElementById(selector.substr(1));
-  }
-
-  // 处理tag
-  if (/^\w+$/.test(selector)) {
-    console.log('handle tag');
-    return root.getElementsByTagName(selector);
-  };
-
-  // 处理class
-  if (/^\.\w+$/) {
-    console.log('handle class');
-
-    selector = selector.substr(1);
-
-    // 检测浏览器支不支持getElementsByClassName
-    if (root.getElementsByClassName) {
-      return root.getElementsByClassName(selector);
-    } else {
-      // 旧版本的浏览器选择class
-
+    // 处理空字符串
+    if (selector === '') {
+      return null;
     }
-  };
-  // 处理attribute
 
-  // 处理attribute=value
+    // 处理两边空，左边空，右边空
+    if (/^ +.* +$/.test(selector) || /^ +.*$/.test(selector) || /^.* +$/.test(selector)) {
+      return null;
+    }
 
-  // 处理简单的组合
+    // 判断是否为组合
+    if (selector.split(' ').length === 1) {
+
+      /*
+       * 非组合
+       */
+
+      // 处理id
+      if (/^#\S+$/.test(selector)) {
+        console.log('handle id');
+
+        return root.getElementById(selector.substr(1));
+      }
+
+      // 处理tag
+      if (/^[a-z]+$/.test(selector.toLowerCase())) {
+        console.log('handle tag');
+
+        elArr = root.getElementsByTagName(selector);
+        return elArr.length === 0 ? null : elArr;
+      }
+
+      // 处理class
+      if (/^\.\S+$/) {
+        console.log('handle class');
+
+        selector = selector.substr(1);
+
+        // 检测浏览器支不支持getElementsByClassName
+        if (root.getElementsByClassName) {
+          return root.getElementsByClassName(selector);
+        } else {
+
+          // 旧版本的浏览器选择class
+          var els = root.getElementsByTagName('*');
+
+          for (var i = 0, len = els[i].length; i < len; i++) {
+
+            // 元素
+            if (els[i].nodeType && els[i].nodeType === 1) {
+
+              cn = ' ' + els[i].className + ' ';
+
+              // 是否为指定class
+              if (cn.indexOf(' ' + selector + ' ') !== -1) {
+
+                elArr.push(els[i]);
+              }
+            }
+          }
+
+          return elArr.length === 0 ? null : elArr;
+        }
+
+        return null;
+      }
+
+      // 处理attribute
+      
+
+      // 处理attribute=value
+
+    }else{
+
+      /*
+       * 组合
+       */
+
+      console.log('handle complex');
+
+      var selArr = selector.split(' ');
+      
+      // 处理父子关系
+      if (selArr[1].parentNode !== selArr[0]) {
+        return null;
+      }else{
+
+        // 层级关系
+        
+      }
+    }
+
+  }else{
+    throw new TypeError(SELECTOR_ERROR);
+  }
 }
 
 // 任务4
@@ -449,6 +514,8 @@ $.delegate = function (element, tag, eventName, listener) {
 function isIE() {
   var ua = navigator.userAgent,
     ver = null;
+
+  // 检测用户代理字符串
   if (/MSIE ([^;]+)/.test(ua)) {
     ver = RegExp['$1'];
     return ver;
@@ -458,7 +525,6 @@ function isIE() {
 }
 
 function setCookie(cookieName, cookieValue, expiredays) {
-  // your implement
   var cookieText = encodeURIComponent(cookieName) + '=' + encodeURIComponent(cookieValue);
 
   // 设置cookie的有效时间
