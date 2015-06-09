@@ -1,3 +1,6 @@
+var $ = $ || {};
+var coreVersion = 1.0.0; // 版本号
+
 // 任务2 --------------------------------------------------------
 function isArray(arr) {
 
@@ -24,9 +27,16 @@ function isRegExp(re) {
 
 /*
  * 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
- * 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。不会包含函数、正则对象等
+ * 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。
+ * 不会包含函数、正则对象等
  */
 function cloneObject(src) {
+
+  // 1.对于Object和Array的遍历，可以使用for in，
+  // 这样可以保证在在Array对象上扩展的属性也可以正确复制。
+  // 2.对于Date,String,Boolean等引用类型的数据，
+  // 需要考虑调用构造函数重新构造，直接赋值依然会有引用问题（不是真正的clone引用变量）。
+  // 
 
   // 是否不为函数和正则
   if (!(isFunction(src) && isRegExp(src))) {
@@ -64,6 +74,7 @@ function uniqArray(arr) {
 
   if (isArray(arr)) {
 
+    // 注意，使用for in遍历数组，会遍历到数组对象扩展出来的属性，故放弃
     for (var i = 0; i < arr.length; i++) {
       for (var j = i + 1; j < arr.length; j++) {
         if (arr[i] === arr[j]) {
@@ -102,6 +113,11 @@ function uniqArray(arr) {
 
 function trim(str) {
   if (typeof str === 'string') {
+
+    // chrome下'\s'可以匹配全角空格，但是考虑兼容的话，
+    // 需要加上'\uFEFF\xA0'，去掉BOM头和全角空格。
+    var whiteSpace = '\f\n\r\t\v';
+
     return String.prototype.trim ? str.trim() : str.replace(/^\s+|\s+$/g, 'string');
   }
 }
@@ -157,10 +173,11 @@ function isMobilePhone(phone) {
 
 // 任务3 --------------------------------------------------------
 function hasClass(element, classname){
-  var cn = element.className;
 
   // 判断 classname 是否无值，或者是空格
-  if (cn !== '' && !(/\s/.test(cn))) {
+  if (classname !== '' && !(/\s/.test(classname))) {
+
+    var cn = element.className;
 
     // classList ECMAScript5
     // 调用原生js的判断classname方法
@@ -255,7 +272,11 @@ function $(selector, eleScope) {
   var root = window.document;
   var SELECTOR_ERROR = 'only accept a valid string',
     cn = '', // 临时变量
-    elArr = []; // 元素集合
+    elArr = [], // 元素集合
+    els = null,
+    i = 0,
+    len = 0,
+    selArr = [];
 
   if (typeof selector === 'string') {
 
@@ -292,7 +313,7 @@ function $(selector, eleScope) {
       }
 
       // 处理class
-      if (/^\.\S+$/) {
+      if (/^\.\S+$/.test(selector)) {
         console.log('handle class');
 
         selector = selector.substr(1);
@@ -303,9 +324,9 @@ function $(selector, eleScope) {
         } else {
 
           // 旧版本的浏览器选择class
-          var els = root.getElementsByTagName('*');
+          els = root.getElementsByTagName('*');
 
-          for (var i = 0, len = els[i].length; i < len; i++) {
+          for (i = 0, len = els[i].length; i < len; i++) {
 
             // 元素
             if (els[i].nodeType && els[i].nodeType === 1) {
@@ -326,10 +347,43 @@ function $(selector, eleScope) {
         return null;
       }
 
-      // 处理attribute
-      
+      // 处理 attribute
+      if (selector.charAt(0) === '[' && selector.charAt(selector.length - 1) === ']') {
+        selector = selector.substring(1, selector.length - 1);
 
-      // 处理attribute=value
+        // 是否带值
+        if (selector.split('=').length !== 2) {
+
+          // 不带值
+          els = root.getElementsByTagName('*');
+
+          for (i = 0, len = els.length; i < len; i++) {
+            
+            // 判断元素属性是否存在
+            if (els[i].getAttribute(selector)) {
+              elArr.push(els[i]);
+            }
+          }
+
+          return elArr.length === 0 ? null : elArr;
+        }else{
+
+          // 带值
+          selArr = selector.split('=');
+
+          els = root.getElementsByTagName('*');
+
+          for (i = 0, len = els.length; i < len; i++) {
+            
+            // 判断元素属性是否相等
+            if (els[i].getAttribute(selArr[0]) === selArr[1]) {
+              elArr.push(els[i]);
+            }
+          }
+
+          return elArr.length === 0 ? null : elArr;
+        }
+      }
 
     }else{
 
@@ -339,15 +393,15 @@ function $(selector, eleScope) {
 
       console.log('handle complex');
 
-      var selArr = selector.split(' ');
+      selArr = selector.split(' ');
       
       // 处理父子关系
-      if (selArr[1].parentNode !== selArr[0]) {
+      if (selArr[1].parentNode !== selArr[0].parentNode) {
         return null;
       }else{
 
         // 层级关系
-        
+
       }
     }
 
@@ -438,9 +492,12 @@ $.on = function (element, event, listener) {
       element.attachEvent('on' + event, function() {
         listener.call(element);
       });
-    } else {
-      element['on' + event] = listener;
-    }
+    } 
+   　// 几乎不存在不支持标准的浏览器了
+   　// else {
+   　//   element['on' + event] = listener;
+   　// }
+    
   }
 }
 
@@ -450,9 +507,10 @@ $.un = function (element, event, listener) {
       element.removeEventListener(event, listener, false);
     } else if (element.detachEvent) {
       element.detachEvent('on' + event, listener);
-    } else {
-      element['on' + event] = null;
-    }
+    } 
+    // else {
+    //   element['on' + event] = null;
+    // }
   };
 }
 
@@ -462,13 +520,14 @@ $.click = function (element, listener) {
 
 $.enter = function(element, listener) {
   $.on(element, 'keydown', function(event) {
+
     var e = event || window.event;
     var keyC = e.keyCode || e.which;
 
     if (keyC === 13) {
-      listener.call(element);
-    };
-  })
+      listener.call(element, event);
+    }
+  });
 }
 
 // 实现事件代理函数
@@ -496,22 +555,26 @@ $.delegate = function (element, tag, eventName, listener) {
           listener.call(target);
         };
       });
-    } else {
-      element['on' + eventName] = function() {
-        var e = arguments[0] || window.event,
-          target = e.srcElement ? e.srcElement : e.target;
+    } 
+    // else {
+    //   element['on' + eventName] = function() {
+    //     var e = arguments[0] || window.event,
+    //       target = e.srcElement ? e.srcElement : e.target;
 
-        if (target.nodeName.toLowerCase() === tag) {
-          listener.call(target);
-        };
-      }
-    }
+    //     if (target.nodeName.toLowerCase() === tag) {
+    //       listener.call(target);
+    //     };
+    //   }
+    // }
 
   }
 }
 
 // 任务5 ------------------------------------------------------
 function isIE() {
+
+  // 在IE8+，可以选择不同版本的浏览区渲染模式，因此在这种情况下，
+  // navigator的信息就不准确了。 所以需要使用documentMode来判断实际的渲染模式。
   var ua = navigator.userAgent,
     ver = null;
 
@@ -531,7 +594,8 @@ function setCookie(cookieName, cookieValue, expiredays) {
   var exdate = new Date();
   exdate.setDate(exdate.getDate() + expiredays);
 
-  cookieText += ((expiredays == null) ? '' : ',expires=' + exdate.toGMTString());
+  // W3C标准中建议使用toUTCString代替toGMTString。
+  cookieText += ((expiredays == null) ? '' : ',expires=' + exdate.toUTCString());
 
   document.cookie = cookieText;
 }
@@ -567,14 +631,18 @@ function ajax(url, options) {
 
   if (!options.type) {
     options.type = 'get';
-  };
+  }
 
   try {
     xhr = new XMLHttpRequest();
   } catch (e) {
     xhr = new ActiveXObject('Microsoft.XMLHTTP');
-  }
+  } catch (e) {
 
+    // 低版本IE
+    xhr = new ActiveXObject('Msxml2.XMLHTTP')
+  }
+ 
   url = url + '?rand=' + Math.random();
 
   options.data = params(options.data);
@@ -595,7 +663,9 @@ function ajax(url, options) {
 
   if (options.type === 'post') {
     xhr.open(options.type, url, false);
-    xhr.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+
+    // 要指定编码格式
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
     xhr.send(options.data);
   } else {
     xhr.open(options.type, url, false);
