@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="js/util.js"></script>
+</head>
+<body>
+  <script>
+    (function(){
+      var arr = [],
+        string = '',
+        intNum = 1,
+        fNum = 1.1,
+        nothing = null,
+        date = new Date(),
+        re = new RegExp('DD');
+
+      // alert(isArray(nothing));
+      // alert(typeof date);
+      alert(Object.prototype.toString.call(re) === '[object RegExp]');
+    })();
+  </script>
+</body>
+</html>

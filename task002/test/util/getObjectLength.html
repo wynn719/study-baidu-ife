@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="js/util.js"></script>
+</head>
+<body>
+  <div id="div">
+    <li><a href=""></a><strong></strong></li>
+    <li><a href=""></a><strong></strong></li>
+    <li><a href=""></a><strong></strong></li>
+    <li><a href=""></a><strong></strong></li>
+    <li><a href=""></a><strong></strong></li>
+  </div>
+  <script>
+    var date = {
+      a : {
+        b : 'b'
+      },
+      c : 'nihao'
+    };
+
+    var o = new Object();
+
+    var arr = new Array();
+
+    var aLi = document.getElementsByTagName('a');
+
+    console.log(aLi);
+
+    // 检验元素时，元素集合类似于数组，但是有多一个length属性
+    console.log(getObjectLength(aLi)); // 6
+
+    console.log(getObjectLength(window));
+
+    console.log(getObjectLength(arr));
+  </script>
+</body>
+</html>

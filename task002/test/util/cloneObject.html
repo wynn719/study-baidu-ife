@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="js/util-0.2.js"></script>
+</head>
+<body>
+  <script>
+    var obj = {
+      name : 'wayne',
+      age : 18,
+      sayHello : function(){
+        console.log('hello, ' + this.name);
+      }
+    };
+
+    var date = new Date();
+
+    var arr = ['hehe', 89, obj];
+
+    var nobj = cloneObject(obj);
+    console.log(nobj);
+
+    var ndate = cloneObject(date);
+    console.log(ndate instanceof Date); // true
+
+    var narr = cloneObject(arr);
+    console.log(narr);
+    narr[2].sayHello(); // hello wayne
+  </script>
+</body>
+</html>

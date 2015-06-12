@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    window.onload = function(){
+        /*setCookie('wayne', 'handsome', 1);
+        alert(getCookie('wayne'));*/
+        console.log(isIE());
+    }
+
+    // 判断是否为IE浏览器，返回-1或者版本号
+    function isIE() {
+        // your implement
+        var ua = navigator.userAgent,
+            ver = null;
+        if (/MSIE ([^;]+)/.test(ua)) {
+            ver = RegExp['$1'];
+            return ver;
+        }else{
+            return -1;
+        }
+    }
+
+    // 设置cookie
+    // chrome只支持在服务器上进行js的读写，在本地禁止cookie写入
+    function setCookie(cookieName, cookieValue, expiredays) {
+        // your implement
+        var cookieText = encodeURIComponent(cookieName) + '=' + encodeURIComponent(cookieValue);
+
+        // 设置cookie的有效时间
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
+
+        cookieText += ((expiredays == null) ? '' : ',expires=' + exdate.toGMTString());
+
+        document.cookie = cookieText;
+    }
+
+    // 获取cookie值
+    function getCookie(cookieName) {
+        // your implement
+        var cookieName = encodeURIComponent(cookieName) + '=',
+            cStart = document.cookie.indexOf(cookieName),
+            cValue = null;
+
+        if (cStart != -1) {
+            var cEnd = document.cookie.indexOf(';', cStart);
+
+            if (cEnd == -1) {
+                cEnd = document.cookie.length;
+            };
+
+            cValue =  decodeURIComponent(document.cookie.substring(cStart + cookieName.length, cEnd));
+        }
+        return cValue;
+    }   
+    </script>
+</body>
+</html>
