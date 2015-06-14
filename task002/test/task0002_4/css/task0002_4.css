@@ -1,0 +1,36 @@
+@charset 'UTF-8';
+
+#main{
+  width: 800px;
+  margin: 0 auto;
+  margin-top: 200px;
+}
+#search{
+  width: 400px;
+}
+#search input{
+  line-height: 20px;
+  width: 200px;
+}
+#search .match-text{
+  width: 300px;
+  list-style-type: none;
+  margin: 0;
+  margin-top: -1px;
+  padding: 0;
+  display: none;
+  border: 1px solid #808080;
+}
+#search .match-text li{
+  line-height: 24px;
+  padding: 0 5px;
+  font-size: 14px;
+  color: #000;
+  transition : background-color 0.5s;
+}
+#search .match-text li:hover{
+  background-color: #c0c0c0;
+}
+#search .match-text li.hover{
+  background-color: #c0c0c0; 
+}

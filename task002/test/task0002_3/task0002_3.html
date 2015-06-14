@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>小练习3-轮播图</title>
   <link rel="stylesheet" href="css/task0002_3.css">
-  <script src="js/util.js"></script>
+  <script src="../util/js/util.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -16,22 +16,23 @@
       <li>在轮播图下方自动生成对应图片的小点，点击小点，轮播图自动动画切换到对应的图片</li>
     </ul>
 
-    <div id="carousel">
-      <div id="carousel-inner">
+    <div class="carousel">
+      <div class="carousel-inner">
         <div class="item" style="background-color: #ffff00;">first div</div>
         <div class="item" style="background-color: #ff8040;">second div</div>
         <div class="item" style="background-color: #80ff80;">third div</div>
         <div class="item" style="background-color: #80ffff;">fourth div</div>
       </div>
-
-<!--       <ol class="carousel-indicators">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-      </ol> -->
     </div>
-    <script src="js/task0002_3.js"></script>
+
+    <p>bug:</p>
+    <ul>
+      <li>没有防止重复点击</li>
+      <li>反序和循环不可配置</li>
+      <li>代码封装的不好，耦合性高爆了</li>
+    </ul>
+
+    <script src="js/task0002_3_1.js"></script>
   </div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /**
  * add : 规范注释
- * change : 优化和改进任务2中的代码
+ * change : 优化和改进代码
  */
 
 var coreVersion = '0.2'; // 版本号
@@ -348,26 +348,37 @@ function isMobilePhone(phone) {
 }
 
 // 任务3 --------------------------------------------------------
+
+/**
+ * [hasClass description]
+ * @param  {HTMLElement}  element   元素
+ * @param  {string}  classname 
+ * @return {Boolean}           
+ */
 function hasClass(element, classname){
 
-  // 判断 classname 是否无值，或者是空格
-  if (classname !== '' && !(/\s/.test(classname))) {
+  var cn = element.className;
 
-    var cn = element.className;
-
-    // classList ECMAScript5
-    // 调用原生js的判断classname方法
-    if (element.classList && element.classList.contains) {
-      return element.classList.contains(cn);
-    } else {
-
-      // jquery中的做法
-      return (' ' + cn + ' ').indexOf(' ' + classname + ' ') !== -1;
-    }
+  if (!cn) {
+    return false;
   }
-  return false;
+
+  // classList ECMAScript5
+  // 调用原生js的判断classname方法
+  if (element.classList && element.classList.contains) {
+    return element.classList.contains(cn);
+  } else {
+
+    // jquery中的做法
+    return (' ' + cn + ' ').indexOf(' ' + classname + ' ') !== -1;
+  }
 }
 
+/**
+ * [addClass description]
+ * @param {HTMLElement} element   元素
+ * @param {string} newClassName
+ */
 function addClass(element, newClassName) {
 
   // 判断newClassName是否单一
@@ -375,41 +386,53 @@ function addClass(element, newClassName) {
     throw new TypeError('only accept a single class name');
   }
 
-  if (newClassName) {
+  if (!newClassName) {
+    return false;
+  }
 
-    if (element.classList) {
-      element.classList.add(newClassName);
-    } else if (!hasClass(element, newClassName)) {
-      element.className += ' ' + newClassName;
-    }
-
+  if (element.classList) {
+    element.classList.add(newClassName);
+  } else if (!hasClass(element, newClassName)) {
+    element.className += ' ' + newClassName;
   }
 }
 
+/**
+ * [removeClass description]
+ * @param  {HTMLElement} element      元素
+ * @param  {string} oldClassName
+ * @return {[type]} 
+ */
 function removeClass(element, oldClassName) {
 
   if (/\s/.test(oldClassName)) {
     throw new TypeError('only accept a single className');
   }
 
-  if (oldClassName) {
+  if (!oldClassName) {
+    return false;
+  }
 
-    if (element.classList) {
-      element.classList.remove(oldClassName);
-    } else if (hasClass(element, oldClassName)) {
-      var aCns = element.className.split(' ');
+  if (element.classList) {
+    element.classList.remove(oldClassName);
+  } else if (hasClass(element, oldClassName)) {
+    var aCns = element.className.split(/\s+/);
 
-      // 去除指定class
-      for (var i = 0; i < aCns.length; i++) {
-        aCns[i] === oldClassName && aCns.splice(i, 1);
-        break;
-      }
-      element.className = aCns.join(' ');
+    // 去除指定class
+    for (var i = 0, len = aCns.length; i < len; i++) {
+      aCns[i] === oldClassName && aCns.splice(i, 1);
+      break;
     }
-
+    element.className = aCns.join(' ');
   }
 }
 
+/**
+ * [isSiblingNode description]
+ * @param  {HTMLElement} element      元素
+ * @param  {HTMLElement} siblingNode      判断元素
+ * @return {Boolean} 
+ */
 function isSiblingNode(element, siblingNode) {
 
   // 都不是元素的时候
@@ -435,6 +458,11 @@ function isSiblingNode(element, siblingNode) {
   }
 }
 
+/**
+ * [getPosition 获取元素的窗口位置]
+ * @param  {HTMLElement} element 元素
+ * @return {Object}    元素的距离窗口的横坐标和纵坐标
+ */
 function getPosition(element) {
 
   // 对于表格和内嵌框架布局的页面，由于不同浏览器实现方式不一样，
@@ -456,148 +484,314 @@ function getPosition(element) {
 }
 
 // 实现一个简单的Query，好难啊,尚未实现！！！！！！！！
-function $(selector, eleScope) {
-  var root = window.document;
-  var SELECTOR_ERROR = 'only accept a valid string',
-    cn = '', // 临时变量
-    elArr = [], // 元素集合
-    els = null,
-    i = 0,
-    len = 0,
-    selArr = [];
+// function $(selector, eleScope) {
+//   var root = window.document;
+//   var SELECTOR_ERROR = 'only accept a valid string',
+//     cn = '', // 临时变量
+//     elArr = [], // 元素集合
+//     els = null,
+//     i = 0,
+//     len = 0,
+//     selArr = [];
 
-  if (typeof selector === 'string') {
+//   if (typeof selector === 'string') {
 
-    // 处理空字符串
-    if (selector === '') {
-      return null;
-    }
+//     // 处理空字符串
+//     if (selector === '') {
+//       return null;
+//     }
 
-    // 处理两边空，左边空，右边空
-    if (/^ +.* +$/.test(selector) || /^ +.*$/.test(selector) || /^.* +$/.test(selector)) {
-      return null;
-    }
+//     // 处理两边空，左边空，右边空
+//     if (/^ +.* +$/.test(selector) || /^ +.*$/.test(selector) || /^.* +$/.test(selector)) {
+//       return null;
+//     }
 
-    // 判断是否为组合
-    if (selector.split(' ').length === 1) {
+//     // 判断是否为组合
+//     if (selector.split(' ').length === 1) {
 
-      /*
-       * 非组合
-       */
+//       /*
+//        * 非组合
+//        */
 
-      // 处理id
-      if (/^#\S+$/.test(selector)) {
-        console.log('handle id');
+//       // 处理id
+//       if (/^#\S+$/.test(selector)) {
+//         console.log('handle id');
 
-        return root.getElementById(selector.substr(1));
-      }
+//         return root.getElementById(selector.substr(1));
+//       }
 
-      // 处理tag
-      if (/^[a-z]+$/.test(selector.toLowerCase())) {
-        console.log('handle tag');
+//       // 处理tag
+//       if (/^[a-z]+$/.test(selector.toLowerCase())) {
+//         console.log('handle tag');
 
-        elArr = root.getElementsByTagName(selector);
-        return elArr.length === 0 ? null : elArr;
-      }
+//         elArr = root.getElementsByTagName(selector);
+//         return elArr.length === 0 ? null : elArr;
+//       }
 
-      // 处理class
-      if (/^\.\S+$/.test(selector)) {
-        console.log('handle class');
+//       // 处理class
+//       if (/^\.\S+$/.test(selector)) {
+//         console.log('handle class');
 
-        selector = selector.substr(1);
+//         selector = selector.substr(1);
 
-        // 检测浏览器支不支持getElementsByClassName
-        if (root.getElementsByClassName) {
-          return root.getElementsByClassName(selector);
-        } else {
+//         // 检测浏览器支不支持getElementsByClassName
+//         if (root.getElementsByClassName) {
+//           return root.getElementsByClassName(selector);
+//         } else {
 
-          // 旧版本的浏览器选择class
-          els = root.getElementsByTagName('*');
+//           // 旧版本的浏览器选择class
+//           els = root.getElementsByTagName('*');
 
-          for (i = 0, len = els[i].length; i < len; i++) {
+//           for (i = 0, len = els[i].length; i < len; i++) {
 
-            // 元素
-            if (els[i].nodeType && els[i].nodeType === 1) {
+//             // 元素
+//             if (els[i].nodeType && els[i].nodeType === 1) {
 
-              cn = ' ' + els[i].className + ' ';
+//               cn = ' ' + els[i].className + ' ';
 
-              // 是否为指定class
-              if (cn.indexOf(' ' + selector + ' ') !== -1) {
+//               // 是否为指定class
+//               if (cn.indexOf(' ' + selector + ' ') !== -1) {
 
-                elArr.push(els[i]);
-              }
-            }
-          }
+//                 elArr.push(els[i]);
+//               }
+//             }
+//           }
 
-          return elArr.length === 0 ? null : elArr;
-        }
+//           return elArr.length === 0 ? null : elArr;
+//         }
 
-        return null;
-      }
+//         return null;
+//       }
 
-      // 处理 attribute
-      if (selector.charAt(0) === '[' && selector.charAt(selector.length - 1) === ']') {
-        selector = selector.substring(1, selector.length - 1);
+//       // 处理 attribute
+//       if (selector.charAt(0) === '[' && selector.charAt(selector.length - 1) === ']') {
+//         selector = selector.substring(1, selector.length - 1);
 
-        // 是否带值
-        if (selector.split('=').length !== 2) {
+//         // 是否带值
+//         if (selector.split('=').length !== 2) {
 
-          // 不带值
-          els = root.getElementsByTagName('*');
+//           // 不带值
+//           els = root.getElementsByTagName('*');
 
-          for (i = 0, len = els.length; i < len; i++) {
+//           for (i = 0, len = els.length; i < len; i++) {
             
-            // 判断元素属性是否存在
-            if (els[i].getAttribute(selector)) {
-              elArr.push(els[i]);
-            }
-          }
+//             // 判断元素属性是否存在
+//             if (els[i].getAttribute(selector)) {
+//               elArr.push(els[i]);
+//             }
+//           }
 
-          return elArr.length === 0 ? null : elArr;
-        }else{
+//           return elArr.length === 0 ? null : elArr;
+//         }else{
 
-          // 带值
-          selArr = selector.split('=');
+//           // 带值
+//           selArr = selector.split('=');
 
-          els = root.getElementsByTagName('*');
+//           els = root.getElementsByTagName('*');
 
-          for (i = 0, len = els.length; i < len; i++) {
+//           for (i = 0, len = els.length; i < len; i++) {
             
-            // 判断元素属性是否相等
-            if (els[i].getAttribute(selArr[0]) === selArr[1]) {
-              elArr.push(els[i]);
-            }
-          }
+//             // 判断元素属性是否相等
+//             if (els[i].getAttribute(selArr[0]) === selArr[1]) {
+//               elArr.push(els[i]);
+//             }
+//           }
 
-          return elArr.length === 0 ? null : elArr;
-        }
-      }
+//           return elArr.length === 0 ? null : elArr;
+//         }
+//       }
 
-    }else{
+//     }else{
 
-      /*
-       * 组合
-       */
+//       /*
+//        * 组合
+//        */
 
-      console.log('handle complex');
+//       console.log('handle complex');
 
-      selArr = selector.split(' ');
+//       selArr = selector.split(' ');
       
-      // 处理父子关系
-      if (selArr[1].parentNode !== selArr[0].parentNode) {
-        return null;
-      }else{
+//       // 处理父子关系
+//       if (selArr[1].parentNode !== selArr[0].parentNode) {
+//         return null;
+//       }else{
 
-        // 层级关系
+//         // 层级关系
 
+//       }
+//     }
+
+//   }else{
+//     throw new TypeError(SELECTOR_ERROR);
+//   }
+// }
+
+/**
+ * mini $
+ *
+ * @param {string} selector 选择器
+ * @return {Array.<HTMLElement>} 返回匹配的元素列表
+ */
+function $(selector) {
+  var idReg = /^#([\w_\-]+)/; // 不考虑不符合命名规范的 id 命名
+  var classReg = /^\.([\w_\-]+)/; // 不考虑不符合命名规范的 class 命名
+  var tagReg = /^\w+$/i; 
+
+  // 可能有的 attr 形式
+  // [data-log]
+  // [data-log="test"]
+  // [data-log=test]
+  // [data-log='test']
+  var attrReg = /(\w+)?\[([^=\]]+)(?:=(["'])?([^\]"']+)\3?)?\]/;
+
+  // 不考虑'>' 、`~`等嵌套关系
+  // 父子选择器之间用空格相隔
+  var context = document;
+
+  function blank() {}
+
+  function direct(part, actions) {
+    actions = actions || {
+      id: blank,
+      className: blank,
+      tag: blank,
+      attribute: blank
+    };
+
+    var fn;
+    var params = [].slice.call(arguments, 2);
+
+    // id
+    if (result = part.match(idReg)) {
+      fn = 'id';
+      params.push(result[1]);
+    }
+
+    // class
+    else if (result = part.match(classReg)) {
+      fn = 'className';
+      params.push(result[1]);
+    }
+
+    // tag
+    else if (result = part.match(tagReg)) {
+      fn = 'tag';
+      params.push(result[0]);
+    }
+
+    // attribute
+    else if (result = part.match(attrReg)) {
+      fn = 'attribute';
+      var tag = result[1];
+      var key = result[2];
+      var value = result[4];
+      params.push(tag, key, value);
+    }
+    return actions[fn].apply(null, params);
+  }
+
+  function find(parts, context) {
+    var part = parts.pop();
+
+    var actions = {
+      id: function(id) {
+        return [
+          document.getElementById(id)
+        ];
+      },
+      className: function(className) {
+        var result = [];
+        if (context.getElementsByClassName) {
+          result = context.getElementsByClassName(className)
+        } else {
+          var temp = context.getElementsByTagName('*');
+          for (var i = 0, len = temp.length; i < len; i++) {
+            var node = temp[i];
+            if (hasClass(node, className)) {
+              result.push(node);
+            }
+          }
+        }
+        return result;
+      },
+      tag: function(tag) {
+        return context.getElementsByTagName(tag);
+      },
+      attribute: function(tag, key, value) {
+        var result = [];
+        var temp = context.getElementsByTagName(tag || '*');
+
+        for (var i = 0, len = temp.length; i < len; i++) {
+          var node = temp[i];
+          if (value) {
+            var v = node.getAttribute(key);
+            (v === value) && result.push(node);
+          } else if (node.hasAttribute(key)) {
+            result.push(node);
+          }
+        }
+        return result;
+      }
+    };
+
+    var ret = direct(part, actions);
+
+    // to array
+    ret = [].slice.call(ret);
+
+    return parts[0] && ret[0] ? filterParents(parts, ret) : ret;
+  }
+
+  function filterParents(parts, ret) {
+    var parentPart = parts.pop();
+    var result = [];
+
+    for (var i = 0, len = ret.length; i < len; i++) {
+      var node = ret[i];
+      var p = node;
+
+      while (p = p.parentNode) {
+        var actions = {
+          id: function(el, id) {
+            return (el.id === id);
+          },
+          className: function(el, className) {
+            return hasClass(el, className);
+          },
+          tag: function(el, tag) {
+            return (el.tagName.toLowerCase() === tag);
+          },
+          attribute: function(el, tag, key, value) {
+            var valid = true;
+            if (tag) {
+              valid = actions.tag(el, tag);
+            }
+            valid = valid && el.hasAttribute(key);
+            if (value) {
+              valid = valid && (value === el.getAttribute(key))
+            }
+            return valid;
+          }
+        };
+        var matches = direct(parentPart, actions, p);
+
+        if (matches) {
+          break;
+        }
+      }
+
+      if (matches) {
+        result.push(node);
       }
     }
 
-  }else{
-    throw new TypeError(SELECTOR_ERROR);
+    return parts[0] && result[0] ? filterParents(parts, result) : result;
   }
-}
 
+  var result = find(selector.split(/\s+/), context);
+
+  return result;
+}
 // 任务4
 /*function addEvent(element, event, listener) {
   if (element.nodeType && event) {
@@ -672,23 +866,42 @@ function delegateEvent(element, tag, eventName, listener) {
   }
 }*/
 
+/**
+ * [on 绑定事件]
+ * @param  {HTMLElement} element  要绑定的元素
+ * @param  {string} event    事件名称
+ * @param  {function} listener 
+ * @return {HTMLElement}          
+ */
 $.on = function (element, event, listener) {
+  var realListener = function (e){
+    if (isFunction(listener)) {
+      listener.call(element, e);
+    }
+  }
+
   if (element.nodeType && event) {
     if (element.addEventListener) {
-      element.addEventListener(event, listener, false);
+      element.addEventListener(event, realListener, false);
     } else if (element.attachEvent) {
-      element.attachEvent('on' + event, function() {
-        listener.call(element);
-      });
+      element.attachEvent('on' + event, realListener);
     } 
    　// 几乎不存在不支持标准的浏览器了
    　// else {
    　//   element['on' + event] = listener;
    　// }
-    
   }
+
+  return element; // 有助于链式调用
 }
 
+/**
+ * [un 解除绑定事件]
+ * @param  {HTMLElement} element  要绑定的元素
+ * @param  {string} event    事件名称
+ * @param  {function} listener 
+ * @return {HTMLElement}          
+ */
 $.un = function (element, event, listener) {
   if (element.nodeType && event) {
     if (element.removeEventListener) {
@@ -699,15 +912,29 @@ $.un = function (element, event, listener) {
     // else {
     //   element['on' + event] = null;
     // }
-  };
+  }
+
+  return element; // 有助于链式调用
 }
 
+/**
+ * [click 点击事件]
+ * @param  {HTMLElement} element  要绑定的元素
+ * @param  {function} listener 
+ * @return {HTMLElement} 
+ */
 $.click = function (element, listener) {
-  $.on(element, 'click', listener);
+  return $.on(element, 'click', listener);
 }
 
+/**
+ * [enter 回车事件]
+ * @param  {HTMLElement} element  要绑定的元素
+ * @param  {function} listener 
+ * @return {HTMLElement} 
+ */
 $.enter = function(element, listener) {
-  $.on(element, 'keydown', function(event) {
+  listener = function(event) {
 
     var e = event || window.event;
     var keyC = e.keyCode || e.which;
@@ -715,33 +942,42 @@ $.enter = function(element, listener) {
     if (keyC === 13) {
       listener.call(element, event);
     }
-  });
+  }
+
+  return $.on(element, 'keydown', listener);
 }
 
-// 实现事件代理函数
+/**
+ * [delegate description]
+ * @param  {HTMLElement} element  要绑定的元素
+ * @param  {string} tag       要代理的元素
+ * @param  {string} eventName 代理事件
+ * @param  {function} listener 
+ * @return {HTMLElement}  
+ */
 $.delegate = function (element, tag, eventName, listener) {
 
   if (element.nodeType && eventName) {
 
     if (element.addEventListener) {
-      element.addEventListener(eventName, function() {
+      element.addEventListener(eventName, function(e) {
 
-        var e = arguments[0] || window.event,
-          target = e.srcElement ? e.srcElement : e.target;
+        var event = arguments[0] || window.event,
+          target = event.srcElement ? event.srcElement : event.target;
 
         if (target.nodeName.toLowerCase() === tag) {
-          listener.call(target);
-        };
+          listener.call(target, event);
+        }
 
       }, false);
     } else if (element.attachEvent) {
-      element.attachEvent('on' + eventName, function() {
-        var e = arguments[0] || window.event,
-          target = e.srcElement ? e.srcElement : e.target;
+      element.attachEvent('on' + eventName, function(e) {
+        var event = arguments[0] || window.event,
+          target = event.srcElement ? event.srcElement : event.target;
 
         if (target.nodeName.toLowerCase() === tag) {
-          listener.call(target);
-        };
+          listener.call(target, event);
+        }
       });
     } 
     // else {
@@ -756,6 +992,8 @@ $.delegate = function (element, tag, eventName, listener) {
     // }
 
   }
+
+  return element;
 }
 
 // 任务5 ------------------------------------------------------
@@ -844,58 +1082,102 @@ function getCookie(cookieName) {
 }
 
 // 任务6 ---------------------------------------------------------
+/**
+ * [params 格式化请求数据]
+ * @param  {Object} data 
+ * @return {Array} 编码后的数据 
+ */
 function params(data) {
   var arr = [];
+
   for (var i in data) {
-    arr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
+    if (data.hasOwnProperty(i)) {
+      arr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
+    }
   }
   return arr.join('&');
 }
 
-function ajax(url, options) {
-  var xhr = null;
-
-  if (!options.type) {
-    options.type = 'get';
+// 使用惰性函数封装兼容获取 xhr 对象
+var getXHR() = (function(){
+  if (window.XMLHttpRequest) {
+    return function(){
+      return new XMLHttpRequest();
+    }
+  }else if (window.ActiveXObject){
+    return function (){
+      try{
+        return new ActiveXObject('MSXML2.XMLHTTP');
+      } catch (e) {
+        try {
+          return new ActiveXObject('Microsoft.XMLHTTP');
+        } catch (e) {
+          throw new Error('your broswer no support XHR Object');
+        }
+      }
+    }
   }
+})();
 
-  try {
-    xhr = new XMLHttpRequest();
-  } catch (e) {
-    xhr = new ActiveXObject('Microsoft.XMLHTTP');
-  } 
+/**
+ * [ajax description]
+ * @param  {string} url     发送请求的url
+ * @config {Object} options 发送请求的选项参数
+ * @config {string} [options.type] 请求发送的类型，默认为GET
+ * @config {Object} [options.data] 发送的数据
+ * @config {function} [options.onsuccess] 成功时调用的函数
+ * @config {function} [options.onfail] 失败时调用的函数
+ */
+function ajax(url, options) {
+  var options = options || {},
+    xhr = null,
+    data = params(options.data || {}),
+    type = (options.type || 'GET').toUpperCase(),
+    eventHandlers = {
+      onsuccess : options.onsuccess,
+      onfail : options.onfail
+    }; // 将业务逻辑和事件处理分割开
  
   url = url + '?rand=' + Math.random();
 
-  options.data = params(options.data);
+  xhr = getXHR();
 
-  if (options.type === 'get') {
-    url = url.indexOf('?') == -1 ? url + '?' + options.data : url + '&' + options.data;
+  // GET 请求 url 后带数据
+  if (type === 'GET' && data) {
+    url = url.indexOf('?') == -1 ? url + '?' + data : url + '&' + data;
   }
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
       if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-        options.onsuccess && options.onsuccess(xhr.responseText, xhr);
+        if (eventHandlers.onsuccess) {
+          eventHandlers.onsuccess(xhr.responseText, xhr);
+        }
       } else {
-        options.onerror && options.onerror(xhr);
+        if (eventHandlers.onfail) {
+          eventHandlers.onfail(xhr.responseText, xhr);
+        }
       }
-    };
+    }
   };
 
-  if (options.type === 'post') {
-    xhr.open(options.type, url, false);
+  if (type === 'POST') {
+    xhr.open(type, url, false);
 
     // 要指定编码格式
+    // 设置头信息是模拟form表单提交
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-    xhr.send(options.data);
+    xhr.send(data);
   } else {
-    xhr.open(options.type, url, false);
+
+    // 处理GET请求
+    xhr.open(type, url, false);
     xhr.send(null);
   }
 }
 
 // BOM ---------------------------------------------------
+
 // window对象
 function getPageSize(){
   var pageWidth = window.innerWidth,
@@ -947,10 +1229,6 @@ function getQueryStringArgs() {
 }
 
 // javascript中的对象------------------------------------------
-// 判断对象的属性是存在于原型中
-function hasPrototypeProperty(object, name){
-  return !object.hasOwnProperty(name) && (name in object);
-}
 
 // 获得可视区的大小
 function getViewport(){

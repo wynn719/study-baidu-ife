@@ -2,106 +2,144 @@ window.onload = function() {
   /*var oInput = document.getElementById('input'),
     oSub = document.getElementById('submit');*/
 
-  // 第一阶段
-  var showHobbit1 = function() {
-    var arr = trim(oInput.value).split(',');
+  // // 第一阶段
+  // var showHobbit1 = function() {
+  //   var arr = trim(oInput.value).split(',');
 
-    // 过滤空数组
-    for (var i = 0; i < arr.length; i++) {
-      if (/\s+/.test(arr[i])) {
-        arr[i] = trim(arr[i]);
-        if (arr[i] === '') {
-          arr[i].splice(i, 1);
-        };
-      };
-    };
+  //   // 过滤空数组
+  //   for (var i = 0; i < arr.length; i++) {
+  //     if (/\s+/.test(arr[i])) {
+  //       arr[i] = trim(arr[i]);
+  //       if (arr[i] === '') {
+  //         arr[i].splice(i, 1);
+  //       };
+  //     };
+  //   };
 
-    var newArr = uniqArray(arr);
+  //   var newArr = uniqArray2(arr);
 
-    var oP = document.createElement('p');
+  //   var oP = document.createElement('p');
 
-    oP.innerHTML = '您的爱好有' + newArr.join('-') + '。';
-    document.body.appendChild(oP);
-  };
+  //   oP.innerHTML = '您的爱好有' + newArr.join('-') + '。';
+  //   document.body.appendChild(oP);
+  // };
 
-  var oText = document.getElementById('textarea'),
-    oSub = document.getElementById('submit'),
-    oCheckboxs = document.getElementById('checkboxs');
+  // // 第二阶段
+  // var showHobbit2 = function() {
+  //   var arr = trim(oText.value).split(/[\s,，\n、；]/);
 
-  // 第二阶段
-  var showHobbit2 = function() {
-    var arr = trim(oText.value).split(/[\s,，\n、；]/);
+  //   // console.log(arr);
 
-    // console.log(arr);
+  //   // 过滤空数组
+  //   for (var i = 0; i < arr.length; i++) {
+  //     if (/\s+/.test(arr[i])) {
+  //       arr[i] = trim(arr[i]);
+  //       if (arr[i] === '') {
+  //         arr[i].splice(i, 1);
+  //       };
+  //     };
+  //   };
 
-    // 过滤空数组
-    for (var i = 0; i < arr.length; i++) {
-      if (/\s+/.test(arr[i])) {
-        arr[i] = trim(arr[i]);
-        if (arr[i] === '') {
-          arr[i].splice(i, 1);
-        };
-      };
-    };
+  //   // console.log(arr);
 
-    // console.log(arr);
+  //   var newArr = uniqArray(arr);
 
-    var newArr = uniqArray(arr);
+  //   var oP = document.createElement('p');
 
-    var oP = document.createElement('p');
-
-    oP.innerHTML = '您的爱好有' + newArr.join('-') + '。';
-    document.body.appendChild(oP);
-  }
+  //   oP.innerHTML = '您的爱好有' + newArr.join('-') + '。';
+  //   document.body.appendChild(oP);
+  // }
 
   // 第三阶段
-  var oTip = document.getElementById('tip');
+  var oText = $('#textarea')[0],
+    oSub = $('#submit')[0],
+    oCheckboxs = $('#checkboxs')[0],
+    oTip = $('#tip')[0];
+
+  // 将提示信息独立出来
+  var showErr = function(msg){
+    if (msg) {
+      oTip.innerHTML = msg;
+      oTip.style.display = 'block';
+    }else{
+      oTip.innerHTML = '';   
+      oTip.style.display = 'none';
+    }
+  }
+
+  var filterArray = function(arr){
+    var result = [];
+
+    each(arr, function(item){
+      if (item) {
+        result.push(item);
+      }
+    });
+
+    return result;
+  }
+
+  var toggleBtn = function(statu){
+    oSub.disabled = statu;
+  }
 
   var check = function() {
-    var arr = trim(oText.value).split(/[\s,，\n、；]/);
+    var inputVal = oText.value;
 
+    if (!inputVal) {
+      toggleBtn(true);
+      return showErr('输入不能为空');
+    }
+
+    var arr = trim(inputVal).split(/[\s\n\t,，、；]/);
+
+    arr = uniqArray1(arr);
+
+    arr = filterArray(arr);
+
+    // 应该独立该处理，降低耦合
     // 过滤空数组
-    for (var i = 0; i < arr.length; i++) {
-      if (/\s+/.test(arr[i])) {
-        arr[i] = trim(arr[i]);
-        if (arr[i] === '') {
-          arr[i].splice(i, 1);
-        };
-      };
-    };
-
-    var arr = uniqArray(arr);
+    // for (var i = 0; i < arr.length; i++) {
+    //   if (/\s+/.test(arr[i])) {
+    //     arr[i] = trim(arr[i]);
+    //     if (arr[i] === '') {
+    //       arr[i].splice(i, 1);
+    //     };
+    //   };
+    // };
 
     // 限定数量
     if (arr.length > 10) {
-      oTip.style.display = 'block';
-      oSub.disabled = true;
-      return false;
+      toggleBtn(true);
+      return showErr('输入爱好不能大于10个');
     } else {
-      oTip.style.display = 'none';
-      oSub.disabled = false;
-      return arr;
+      toggleBtn(false);
+      return showErr(false);
     }
   }
 
   var showHobbit3 = function() {
-    var arr = check();
+    var arr = oText.value.split(/[\s\n\t,，、；]/);
 
-    if (isArray(arr)) {
+    var sHtml = '';
 
-      var oHtml = '';
+    for (var i = 0, len = arr.length; i < len; i++) {
+      var str = '<p><input type="checkbox" name="checkbox' + i + '" id=""><label for="checkbox' + i + '">' + arr[i] + '</label></p>'
+      sHtml += str;
+    }
 
-      for (var i = 0; i < arr.length; i++) {
-        var str = '<p><input type="checkbox" name="" id=""><label for="">' + arr[i] + '</label></p>'
-        oHtml += str;
-      };
-
-      oCheckboxs.innerHTML = oHtml;
-    };
-
+    oCheckboxs.innerHTML = sHtml;
   }
 
-  $.on(oText, 'keyup', check);
+  // webkit下
+  $.on(oText, 'input', check);
+  // IE下
+  $.on(oText, 'propertychange', check);
+  // 剪切黏贴
+  $.on(oText, 'cut', check);
+  $.on(oText, 'paste', check);
+  // 键盘
+  $.on(oText, 'keydown', check);
 
   $.click(oSub, showHobbit3);
 }

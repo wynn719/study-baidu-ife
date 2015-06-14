@@ -1,7 +1,7 @@
 window.onload = function() {
-  var oInp = $('#date'),
-    oP = $('#p'),
-    oBtn = $('#btn');
+  var oInp = $('#date')[0],
+    oP = $('#p')[0],
+    oBtn = $('#btn')[0];
 
   var validate = function(str) {
     if (/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$/.test(str)) {
@@ -17,7 +17,7 @@ window.onload = function() {
       clearInterval(window.timer);
       window.timer = setInterval(function() {
         var sDate = oInp.value;
-        var aDate = sDate.split('-');
+        var aDate = sDate.split(/-/);
 
         // var end = new Date(sDate);// 默认返回当地时区
         var end = new Date(aDate[0],aDate[1] - 1, aDate[2], 0, 0, 0);

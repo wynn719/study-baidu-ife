@@ -1,7 +1,7 @@
 window.onload = function() {
-  var oCarousel = $('#carousel'),
-    oCaInner = $('#carousel-inner'),
-    oItem = oCaInner.getElementsByClassName('item');
+  var oCarousel = $('#carousel')[0],
+    oCaInner = $('#carousel-inner')[0],
+    oItem = $('#carousel-inner .item');
   // console.log(oItem);
 
   // 公用变量
@@ -121,7 +121,7 @@ function doMove(obj, attr, target, dir, endFn) {
       // 执行回调函数
       endFn && endFn();
     }
-  }, 15);
+  }, 25);
 }
 
 // 获取元素计算后的样式
