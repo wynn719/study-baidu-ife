@@ -1,7 +1,0 @@
-.wrap{width: 960px;margin: 0 auto;margin-top: 100px;position: relative;}
-#textarea{width: 938px;padding: 0 10px;height: 150px;resize: none;box-shadow: 0 0 3px 1px #c0c0c0 inset;}
-#textarea:focus{box-shadow: 0 0 5px 1px #80ffff;}
-#submit{padding: 7px 15px;background-color: #ff8040;color: #fff;border: none;font-size: 14px;border-radius: 5px;}
-#submit:hover{ background-color: #ff8000;}
-#submit:disabled{background-color: #808080;cursor: not-allowed;}
-#tip{display: none;padding: 4px 10px;background-color: red;border: 1px solid #ff8040;color: #fff;font-size: 12px;line-height: 28px;margin: 3px 0;}
