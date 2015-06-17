@@ -1,3 +1,8 @@
+/**
+ * fix : hasClass 
+ * fix : 事件兼容性处理
+ */
+
 var coreVersion = '1.0'; // 版本号
 
 // 任务2 --------------------------------------------------------
@@ -236,7 +241,7 @@ function hasClass(element, classname) {
     return false;
   }
   if (element.classList && element.classList.contains) {
-    return element.classList.contains(cn);
+    return element.classList.contains(classname);
   } else {
     return (' ' + cn + ' ').indexOf(' ' + classname + ' ') !== -1;
   }
@@ -342,6 +347,8 @@ function getPosition(element) {
 /**
  * mini $
  *
+ * bug ： IE9下报错了
+ *
  * @param {string} selector 选择器
  * @return {Array.<HTMLElement>} 返回匹配的元素列表
  */
@@ -440,10 +447,11 @@ function $(selector) {
       }
     };
 
+    console.log(ret);
     var ret = direct(part, actions);
 
     // to array
-    ret = [].slice.call(ret);
+    ret = [].slice.call(ret); // IE 9 下存在问题
 
     return parts[0] && ret[0] ? filterParents(parts, ret) : ret;
   }
@@ -507,21 +515,20 @@ function $(selector) {
  * @return {HTMLElement}          
  */
 $.on = function(element, event, listener) {
-  var realListener = function(e) {
-    if (isFunction(listener)) {
-      listener.call(element, e);
-    }
-  }
+  var realFn = function(event){
+    var e = event || window.event,
+      target = event.srcElement ? event.srcElement : event.target;
+
+    listener.call(target, e);
+  };
 
   if (element.nodeType && event) {
     if (element.addEventListener) {
-      element.addEventListener(event, realListener, false);
+      element.addEventListener(event, realFn, false);
     } else if (element.attachEvent) {
-      element.attachEvent('on' + event, realListener);
+      element.attachEvent('on' + event, realFn);
     }　 
   }
-
-  return element; // 有助于链式调用
 }
 
 /**
@@ -532,15 +539,20 @@ $.on = function(element, event, listener) {
  * @return {HTMLElement}          
  */
 $.un = function(element, event, listener) {
+  var realFn = function(event){
+    var e = event || window.event,
+      target = event.srcElement ? event.srcElement : event.target;
+
+    listener.call(target, e);
+  };
+
   if (element.nodeType && event) {
     if (element.removeEventListener) {
-      element.removeEventListener(event, listener, false);
+      element.removeEventListener(event, realFn, false);
     } else if (element.detachEvent) {
-      element.detachEvent('on' + event, listener);
+      element.detachEvent('on' + event, realFn);
     }
   }
-
-  return element; // 有助于链式调用
 }
 
 /**
@@ -550,7 +562,7 @@ $.un = function(element, event, listener) {
  * @return {HTMLElement} 
  */
 $.click = function(element, listener) {
-  return $.on(element, 'click', listener);
+  $.on(element, 'click', listener);
 }
 
 /**
@@ -569,8 +581,6 @@ $.enter = function(element, listener) {
       listener.call(element, event);
     }
   }
-
-  return $.on(element, 'keydown', listener);
 }
 
 /**
@@ -582,33 +592,23 @@ $.enter = function(element, listener) {
  * @return {HTMLElement}  
  */
 $.delegate = function(element, tag, eventName, listener) {
+  var realFn = function(event){
+    var e = event || window.event,
+      target = event.target || event.srcElement;
+
+    if (target.nodeName.toLowerCase() === tag) {
+      listener.call(target, event);
+    }
+  };
 
   if (element.nodeType && eventName) {
 
     if (element.addEventListener) {
-      element.addEventListener(eventName, function(e) {
-
-        var event = arguments[0] || window.event,
-          target = event.srcElement ? event.srcElement : event.target;
-
-        if (target.nodeName.toLowerCase() === tag) {
-          listener.call(target, event);
-        }
-
-      }, false);
+      element.addEventListener(eventName, realFn, false);
     } else if (element.attachEvent) {
-      element.attachEvent('on' + eventName, function(e) {
-        var event = arguments[0] || window.event,
-          target = event.srcElement ? event.srcElement : event.target;
-
-        if (target.nodeName.toLowerCase() === tag) {
-          listener.call(target, event);
-        }
-      });
+      element.attachEvent('on' + eventName, realFn);
     }
   }
-
-  return element;
 }
 
 // 任务5 ------------------------------------------------------

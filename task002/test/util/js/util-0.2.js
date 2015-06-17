@@ -1,6 +1,7 @@
 /**
  * add : 规范注释
  * change : 优化和改进代码
+ * bug : mini $ 不支持 IE9 及以下，问题没查出来 
  */
 
 var coreVersion = '0.2'; // 版本号

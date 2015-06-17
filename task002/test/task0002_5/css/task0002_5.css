@@ -1,0 +1,78 @@
+@charset 'UTF-8';
+
+body{
+  font-family: "Microsoft Yahei";
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+#wrapper{
+  width: 1300px;
+  height: 1000px;
+  margin: 0 auto;
+  margin-top: 100px;
+  position: relative;
+  border: 3px dashed #ff8080;
+}
+
+#main{
+  margin: 0 auto;
+  overflow: hidden;
+  margin-left: 400px;
+}
+.box{
+  width: 202px;
+  min-height: 411px;
+  border: 1px dotted #c0c0c0;
+  float: left;
+  margin: 20px 80px;
+}
+
+.box .item{
+  width: 200px;
+  text-align: center;
+  border: 1px solid #fff;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  background-color: #80ffff;
+  color: #808080;
+  line-height: 40px;
+  font-size: 18px;
+  cursor: move;
+  border-radius: 5px;
+  transition: * 0.26s ease;
+}
+.box .item:first-child{
+  margin-top: 0px;
+}
+.box .item:hover{
+  background-color: #0080ff;
+  color: #fff;
+  transition: background-color 0.26s linear,
+    color 0.26s linear;
+}
+
+.box .drag{
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  background-color: #0080ff;
+  color: #fff;
+  box-shadow: 0 0 10px 0px #7e7e7e;
+  cursor: -webkit-grabbing;
+}
+.box .drag:after{
+  content: '带我装逼带我飞';
+  position: absolute;
+  width: 100px;
+  left: 200px;
+  top: -20px;
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  border: 2px solid #ff8000;
+  border-radius: 10px 10px 10px 0;
+  color: #ff8000;
+  z-index: 1000;
+}

@@ -8,6 +8,14 @@ window.onload = function(){
   var index = -1,
     lastIndex = 0;
 
+  // util 部分不兼容 IE 9，问题暂时还没有查出来(-_-!)
+  // var oInput = $('#search input')[0],
+    // oUl = $('.match-text')[0];
+
+  var oSearch = document.getElementById('search'),
+    oInput = oSearch.getElementsByTagName('input')[0],
+    oUl = oSearch.getElementsByTagName('ul')[0];
+
   /**
    * 初始化
    */
@@ -15,9 +23,6 @@ window.onload = function(){
     index = -1,
     lastIndex = 0;
   };
-
-  var oInput = $('#search input')[0],
-    oUl = $('.match-text')[0];
 
   var showErr = function() {
     alert('fail!!!');
@@ -95,8 +100,7 @@ window.onload = function(){
    * @param  {number} keyNum 键码
    */
   var move = function(keyNum) {
-    var 
-      lis = $('.match-text li'),
+    var lis = oUl.getElementsByTagName('li'),
       len = lis.length,
       className = 'hover';
 
@@ -108,8 +112,8 @@ window.onload = function(){
         }else{
           index = len - 1;
         }
-        removeClass(lis[lastIndex], className);
-        addClass(lis[index], className);
+        lis[lastIndex].className = '';
+        lis[index].className = className;
         break;
 
       case 40: // down
@@ -119,8 +123,8 @@ window.onload = function(){
         }else{
           index = 0;
         }
-        removeClass(lis[lastIndex], className);
-        addClass(lis[index], className);
+        lis[lastIndex].className = '';
+        lis[index].className = className;
         break;
 
       case 13: // enter
