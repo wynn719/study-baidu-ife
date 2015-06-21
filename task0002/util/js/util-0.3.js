@@ -2,7 +2,6 @@
  * fix : addClass的逻辑错误
  * fix : 优化执行速度
  */
-
 var coreVersion = '1.0'; // 版本号
 
 // 任务2 --------------------------------------------------------
@@ -268,7 +267,7 @@ function addClass(element, newClassName) {
   } else if (!hasClass(element, newClassName)) {
     if (element.className === '') {
       element.className = newClassName;
-    }else{
+    } else {
       element.className += ' ' + newClassName;
     }
   }
@@ -420,7 +419,7 @@ function $(selector) {
       className: function(className) {
         var result = [];
         if (context.getElementsByClassName) {
-          result = context.getElementsByClassName(className)
+          result = context.getElementsByClassName(className);
         } else {
           var temp = context.getElementsByTagName('*');
           for (var i = 0, len = temp.length; i < len; i++) {
@@ -520,7 +519,7 @@ function $(selector) {
  * @return {HTMLElement}          
  */
 $.on = function(element, event, listener) {
-  var realFn = function(event){
+  var realFn = function(event) {
     var e = event || window.event,
       target = event.srcElement ? event.srcElement : event.target;
 
@@ -532,9 +531,9 @@ $.on = function(element, event, listener) {
       element.addEventListener(event, realFn, false);
     } else if (element.attachEvent) {
       element.attachEvent('on' + event, realFn);
-    }　 
+    }　
   }
-}
+};
 
 /**
  * [un 解除绑定事件]
@@ -544,7 +543,7 @@ $.on = function(element, event, listener) {
  * @return {HTMLElement}          
  */
 $.un = function(element, event, listener) {
-  var realFn = function(event){
+  var realFn = function(event) {
     var e = event || window.event,
       target = event.srcElement ? event.srcElement : event.target;
 
@@ -558,7 +557,7 @@ $.un = function(element, event, listener) {
       element.detachEvent('on' + event, realFn);
     }
   }
-}
+};
 
 /**
  * [click 点击事件]
@@ -568,7 +567,7 @@ $.un = function(element, event, listener) {
  */
 $.click = function(element, listener) {
   $.on(element, 'click', listener);
-}
+};
 
 /**
  * [enter 回车事件]
@@ -585,8 +584,8 @@ $.enter = function(element, listener) {
     if (keyC === 13) {
       listener.call(element, event);
     }
-  }
-}
+  };
+};
 
 /**
  * [delegate description]
@@ -597,7 +596,7 @@ $.enter = function(element, listener) {
  * @return {HTMLElement}  
  */
 $.delegate = function(element, tag, eventName, listener) {
-  var realFn = function(event){
+  var realFn = function(event) {
     var e = event || window.event,
       target = event.target || event.srcElement;
 
@@ -614,7 +613,7 @@ $.delegate = function(element, tag, eventName, listener) {
       element.attachEvent('on' + eventName, realFn);
     }
   }
-}
+};
 
 // 任务5 ------------------------------------------------------
 function isIE() {
@@ -654,7 +653,7 @@ function setCookie(cookieName, cookieValue, expiredays) {
 
   // 设置cookie的有效时间
   var exdate = null;
-  if (expiredays != null) {
+  if (expiredays !== null) {
     exdate = new Date();
 
     // 精确到时间
@@ -662,7 +661,7 @@ function setCookie(cookieName, cookieValue, expiredays) {
   }
 
   // W3C标准中建议使用toUTCString代替toGMTString。
-  cookieText += ((expiredays == null) ? '' : ',expires=' + exdate.toGMTString());
+  cookieText += ((expiredays === null) ? '' : ',expires=' + exdate.toGMTString());
 
   document.cookie = cookieText;
 }
@@ -674,8 +673,8 @@ function getCookie(cookieName) {
     return null;
   }
 
-  var cookieName = encodeURIComponent(cookieName) + '=',
-    cStart = doc.cookie.indexOf(cookieName),
+  cookieName = encodeURIComponent(cookieName) + '=';
+  var cStart = doc.cookie.indexOf(cookieName),
     cValue = null;
 
   if (cStart != -1) {
@@ -683,7 +682,7 @@ function getCookie(cookieName) {
 
     if (cEnd == -1) {
       cEnd = doc.cookie.length;
-    };
+    }
 
     cValue = decodeURIComponent(doc.cookie.substring(cStart + cookieName.length, cEnd));
   }
@@ -712,7 +711,7 @@ var getXHR = (function() {
   if (window.XMLHttpRequest) {
     return function() {
       return new XMLHttpRequest();
-    }
+    };
   } else if (window.ActiveXObject) {
     return function() {
       try {
@@ -720,11 +719,11 @@ var getXHR = (function() {
       } catch (e) {
         try {
           return new ActiveXObject('Microsoft.XMLHTTP');
-        } catch (e) {
+        } catch (ex) {
           throw new Error('your broswer no support XHR Object');
         }
       }
-    }
+    };
   }
 })();
 
@@ -738,8 +737,8 @@ var getXHR = (function() {
  * @config {function} [options.onfail] 失败时调用的函数
  */
 function ajax(url, options) {
-  var options = options || {},
-    xhr = null,
+  options = options || {};
+  var xhr = null,
     data = params(options.data || {}),
     type = (options.type || 'GET').toUpperCase(),
     eventHandlers = {
@@ -798,12 +797,12 @@ function getPageSize() {
       pageWidth = doc.body.clientWidth;
       pageHeight = doc.body.clientHeight;
     }
-  };
+  }
 
   return {
     'pageWidth': pageWidth,
     'pageHeight': pageHeight
-  }
+  };
 }
 
 // location对象
@@ -820,15 +819,15 @@ function getQueryStringArgs() {
     len = items.length;
 
   // 每一项添加到args中
-  for (var i = 0; i < len; i++) {
+  for (i = 0; i < len; i++) {
     item = items[i].split('=');
     name = decodeURIComponent(item[0]);
     value = decodeURIComponent(item[1]);
 
     if (name.length) {
       args[name] = value;
-    };
-  };
+    }
+  }
 
   return args;
 }
