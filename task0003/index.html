@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>ToDo</title>
+	<link rel="stylesheet" href="css/css_reset.css">
+	<link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+
+	<header id="header">
+		<h1 class="title">GTD Tools</h1>
+	</header>
+	<div id="main">
+		<div id="menu">
+			<div class="list-box">
+				<div class="all-todos dropdown">
+					<a class="dropdown-toggle active" href="">所有任务<span class="todo-count">(10)</span></a>
+					<ul class="mainnav dropdown-menu">
+						<li>任务1<span class="todo-count">(10)</span></li>
+						<li>任务2<span class="todo-count">(10)</span></li>
+						<li>任务3<span class="todo-count">(10)</span></li>
+						<li>任务4<span class="todo-count">(10)</span></li>
+						<li>任务5<span class="todo-count">(10)</span></li>
+					</ul>
+				</div>
+				<div class="category">
+					<a href="">分类列表</a>
+					<ul class="mainnav">
+						<li>
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="">毕业设计<span class="todo-count">(10)</a>
+								<ul class="subnav dropdown-menu">
+									<li>毕业设计1</li>
+									<li>毕业设计2</li>
+									<li>毕业设计3</li>
+									<li>毕业设计4</li>
+									<li>毕业设计5</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="">社团活动<span class="todo-count">(10)</a>
+								<ul class="subnav dropdown-menu">
+									<li>社团活动1</li>
+									<li>社团活动2</li>
+									<li>社团活动3</li>
+									<li>社团活动4</li>
+									<li>社团活动5</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="">家庭生活<span class="todo-count">(10)</a>
+								<ul class="subnav dropdown-menu">
+									<li>家庭生活1</li>
+									<li>家庭生活2</li>
+									<li>家庭生活3</li>
+									<li>家庭生活4</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="add-new">
+				<p><i>+</i>新增分类</p>
+			</div>
+		</div>
+		<div id="submenu">
+			<div class="top-tab">
+				<a class="active" href="">所有</a>
+				<a href="">未完成</a>
+				<a href="">已完成</a>
+			</div>
+			<div class="list-box">
+				<ul class="mainnav">
+					<li>
+						<div class="dropdown">
+							<a class="dropdown-toggle" href="">毕业设计<span class="todo-count">(10)</a>
+							<ul class="subnav dropdown-menu">
+								<li>毕业设计1</li>
+								<li>毕业设计2</li>
+								<li>毕业设计3</li>
+								<li>毕业设计4</li>
+								<li>毕业设计5</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="dropdown">
+							<a class="dropdown-toggle" href="">社团活动<span class="todo-count">(10)</a>
+							<ul class="subnav dropdown-menu">
+								<li>社团活动1</li>
+								<li>社团活动2</li>
+								<li>社团活动3</li>
+								<li>社团活动4</li>
+								<li>社团活动5</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="add-new">
+				<p><i>+</i>新增任务</p>
+			</div>
+		</div>
+		<section id="content">
+			<header>
+				<h2 class="todo-title">to-do 6</h2>
+				<i class="ok"></i>
+				<i class="edit"></i>
+			</header>
+			<div class="datetime">
+				<p>任务日期：<span>2015-06-28</span></p>
+			</div>
+			<div class="todo-content">
+				<p>完成task3的编码工作</p>
+			</div>
+		</section>
+	</div>
+	
+	<!-- shadow -->
+	<!-- <div class="overlay"></div>
+	<div class="overlay-mes prompt">
+		<i class="close">&times;</i>
+		<p>创建新任务</p>
+		<input type="text">
+		<button class="ok">确定</button>
+		<button class="cancel">取消</button>
+	</div>  -->
+	<script src="js/overlay_plugin.js"></script>
+
+	<script src="lib/util.js"></script>
+	<script src="js/common.js"></script>
+</body>
+</html>
