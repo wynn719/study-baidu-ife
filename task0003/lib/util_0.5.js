@@ -105,13 +105,12 @@
     };
 
     core.each = function(arr, fn) {
-        for (var i = 0, len = arr.length; i < len; i++) {
-            if (fn.call(arr[i], i, arr[i]) === false) {
-                break;
+        if (this.type.isFunction(fn)) {
+            for (var i = 0, len = arr.length; i < len; i++) {
+                fn(arr[i], i);
             }
         }
-    };
-
+    }
     core.getObjectLength = function(obj) {
         var count = 0;
         for (var i in obj) {
@@ -123,6 +122,7 @@
         return count;
     };
 
+    // 验证类
     core.validate = core.validate || {};
 
     core.validate.isEmail = function(emailStr) {
@@ -135,10 +135,38 @@
         return re.test(phone);
     };
 
+    // 日期处理，获得类似这个格式的时间 2015-08-19
+    core.date = core.date || {};
+    core.date.getNow = function() {
+        var dateObj = new Date(),
+            year = dateObj.getFullYear(),
+            mouth = dateObj.getMonth() + 1,
+            day = dateObj.getDate();
+
+        if (mouth < 10) {
+            mouth = '0' + mouth;
+        }
+
+        if (day < 10) {
+            day = '0' + day;
+        }
+
+        return year + '-' + mouth + '-' + day; 
+    };
+
+    // dom事件
     core.dom = core.dom || {};
 
     core.dom.query = function(selectors) {
-        return doc.querySelector(selectors);
+        return doc.querySelectorAll(selectors);
+    };
+
+    core.dom.getData = function(element, name) {
+        return element.getAttribute('data-' + name);
+    };
+
+    core.dom.setData = function(element, name, value) {
+        element.setAttribute('data-' + name, value);
     };
 
     core.dom.hasClass = function(element, classname) {
@@ -217,6 +245,16 @@
         }
     };
 
+    core.dom.nextSibling = function(element) {
+        var node = element.nextSibling;
+        for (node; node; node = node.nextSibling) {
+            if (node.nodeType === 1) {
+                return node;
+            }
+        }
+        return null;
+    };
+
     core.dom.getPosition = function(element) {
         var current = element;
         var pos = {
@@ -293,6 +331,14 @@
             var e = event || window.event,
                 target = e.target || e.srcElement;
 
+            // 类
+            if (/^.\S+$/.test(tag)) {
+                if (core.dom.hasClass(target, tag.slice(1))) {
+                    listener.call(target, event);
+                }
+            }
+            
+            // tag
             if (target.nodeName.toLowerCase() === tag) {
                 listener.call(target, event);
             }

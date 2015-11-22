@@ -14,111 +14,95 @@
 	</header>
 	<div id="main">
 		<div id="menu">
-			<div class="list-box">
-				<div class="all-todos dropdown">
-					<a class="dropdown-toggle active" href="">所有任务<span class="todo-count">(10)</span></a>
-					<ul class="mainnav dropdown-menu">
-						<li>任务1<span class="todo-count">(10)</span></li>
-						<li>任务2<span class="todo-count">(10)</span></li>
-						<li>任务3<span class="todo-count">(10)</span></li>
-						<li>任务4<span class="todo-count">(10)</span></li>
-						<li>任务5<span class="todo-count">(10)</span></li>
-					</ul>
+			<div id="task-box" class="list-box">
+				<div id="all-todos" class="dropdown">
+					<a class="dropdown-toggle" href="javascript:void(0);">所有任务<span class="task-count all-task-count">(10)</span></a>
+					<ul class="mainnav dropdown-menu"></ul>
 				</div>
-				<div class="category">
-					<a href="">分类列表</a>
+
+				<div class="categorys">
+					<a href="javascript:void(0);">分类列表</a>
 					<ul class="mainnav">
-						<li>
+						<!-- 默认分类 -->
+						<li class="category">
 							<div class="dropdown">
-								<a class="dropdown-toggle" href="">毕业设计<span class="todo-count">(10)</a>
-								<ul class="subnav dropdown-menu">
-									<li>毕业设计1</li>
-									<li>毕业设计2</li>
-									<li>毕业设计3</li>
-									<li>毕业设计4</li>
-									<li>毕业设计5</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<a class="dropdown-toggle" href="">社团活动<span class="todo-count">(10)</a>
-								<ul class="subnav dropdown-menu">
-									<li>社团活动1</li>
-									<li>社团活动2</li>
-									<li>社团活动3</li>
-									<li>社团活动4</li>
-									<li>社团活动5</li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<a class="dropdown-toggle" href="">家庭生活<span class="todo-count">(10)</a>
-								<ul class="subnav dropdown-menu">
-									<li>家庭生活1</li>
-									<li>家庭生活2</li>
-									<li>家庭生活3</li>
-									<li>家庭生活4</li>
+								<a class="dropdown-toggle active" href="javascript:void(0);">默认分类
+								<span class="task-count">(1)</span></a>
+								<ul class="dropdown-menu subnav" style="display: block">
+									<li class="task">这是默认分类<span class="task-count">(1)</span><span class="task-del">&times;</span></li>
 								</ul>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<div class="add-new">
+			<div class="add-new-category">
 				<p><i>+</i>新增分类</p>
 			</div>
 		</div>
 		<div id="submenu">
-			<div class="top-tab">
-				<a class="active" href="">所有</a>
-				<a href="">未完成</a>
-				<a href="">已完成</a>
+			<div class="tab-nav top-tab">
+				<a class="active" href="javascript:void(0);" data-type="all">所有</a>
+				<a href="javascript:void(0);" data-type="unfinished">未完成</a>
+				<a href="javascript:void(0);" data-type="finished">已完成</a>
 			</div>
-			<div class="list-box">
-				<ul class="mainnav">
-					<li>
-						<div class="dropdown">
-							<a class="dropdown-toggle" href="">毕业设计<span class="todo-count">(10)</a>
-							<ul class="subnav dropdown-menu">
-								<li>毕业设计1</li>
-								<li>毕业设计2</li>
-								<li>毕业设计3</li>
-								<li>毕业设计4</li>
-								<li>毕业设计5</li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<div class="dropdown">
-							<a class="dropdown-toggle" href="">社团活动<span class="todo-count">(10)</a>
-							<ul class="subnav dropdown-menu">
-								<li>社团活动1</li>
-								<li>社团活动2</li>
-								<li>社团活动3</li>
-								<li>社团活动4</li>
-								<li>社团活动5</li>
-							</ul>
-						</div>
-					</li>
-				</ul>
+			<div class="tab-content">
+				<div class="tabpanel list-box" style="display: block;">
+					<ul id="tab-all-tasks" class="mainnav">
+					</ul>
+				</div>
+				<div class="tabpanel list-box">
+					<ul id="tab-unfinished-tasks" class="mainnav"></ul>
+				</div>
+				<div class="tabpanel list-box">
+					<ul id="tab-finished-tasks" class="mainnav"></ul>
+				</div>
 			</div>
-			<div class="add-new">
+			<div id="add-new-task-btn" class="add-new-task">
 				<p><i>+</i>新增任务</p>
 			</div>
 		</div>
-		<section id="content">
-			<header>
-				<h2 class="todo-title">to-do 6</h2>
+
+		<!-- 任务编辑 -->
+		<section id="current-task-panel" class="task-panel" data-cate-id="" data-sub-cate-id="">
+			<header class="task-header">
+				<h2 class="task-title"></h2>
 				<i class="ok"></i>
 				<i class="edit"></i>
 			</header>
-			<div class="datetime">
-				<p>任务日期：<span>2015-06-28</span></p>
+			<div class="task-datetime">
+				<p>任务日期：<span></span></p>
 			</div>
-			<div class="todo-content">
-				<p>完成task3的编码工作</p>
+			<div class="task-content">
+				<p class="rich-textarea"></p>
+				<div id="real-block" class="hide">	
+					<textarea class="real-textarea" name="" cols="30" rows="10"></textarea>
+					<div class="task-operation">
+						<button class="ok-btn">确定</button>
+						<button class="cancel-btn">取消</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 任务新增 -->
+		<section id="new-task-panel" class="task-panel hide">
+			<header class="task-header">
+				<h2 class="task-title">
+					<label for="new-task-title">任务名：</label><input type="text" id="new-task-title">
+				</h2>
+				<i class="ok"></i>
+				<i class="edit"></i>
+			</header>
+			<div class="task-datetime">
+				<p>任务日期：<span>2015-08-14</span></p>
+			</div>
+			<div class="task-content">
+				<textarea name="" class="real-textarea" cols="30" rows="10"></textarea>
+				<div class="task-operation">
+					<button class="ok-btn">确定</button>
+					<button class="cancel-btn">取消</button>
+				</div>
 			</div>
 		</section>
 	</div>
@@ -132,9 +116,9 @@
 		<button class="ok">确定</button>
 		<button class="cancel">取消</button>
 	</div>  -->
-	<script src="js/overlay_plugin.js"></script>
 
-	<script src="lib/util.js"></script>
+	<script src="lib/util_0.5.js"></script>
+	<script src="js/data.js"></script>
 	<script src="js/common.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 @charset 'utf-8';
 
 /* global */
-i.todo-folder{
+i.todo-folder {
 	display: inline-block;
 	vertical-align: top;
 	width: 28px;
@@ -11,15 +11,21 @@ i.todo-folder{
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
+.show {
+	display: block;
+}
+.hide {
+	display: none;
+}
 
 /* layout */
-#header{
+#header {
 	width: 100%;
 	min-width: 1000px;
 	height: 60px;
 	background-color: #dddddd;
 }
-header .title{
+header .title {
 	padding: 0 10px;
 	font-size: 20px;
 	line-height: 60px;
@@ -27,7 +33,7 @@ header .title{
 	color: #555555;
 	border-bottom: 1px solid #cdcdcd;
 }
-#main{
+#main {
 	position: absolute;
 	top: 61px;
 	left: 0;
@@ -38,8 +44,7 @@ header .title{
 	min-height: 600px;
 	background-color: #ffff80;
 }
-
-#menu{
+#menu {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -47,9 +52,9 @@ header .title{
 	height: 100%;
 	background-color: #f2f2f2;
 	border-right: 1px solid #cdcdcd;
-	overflow: 
+	overflow:
 }
-.list-box{
+.list-box {
 	position: absolute;
 	left: 0;
 	width: 100%;
@@ -60,34 +65,35 @@ header .title{
 	bottom: 41px;
 	overflow: auto;
 }
-.list-box a{
+.list-box a {
 	display: block;
 	color: #000;
 	line-height: 2.0;
 	text-decoration: none;
 	padding: 0 12px;
 }
-.mainnav > li{
+.mainnav > li {
 	padding-left: 20px;
+	list-style: square;
 }
-.mainnav > li:hover{
+.mainnav > li:hover {
 	background-color: #fff;
 }
-.mainnav > li a{
+.mainnav > li a {
 	padding-left: 20px;
 }
-.subnav > li{
+.subnav > li {
 	padding-left: 28px;
 }
-.subnav > li:hover{
+.subnav > li:hover {
 	background-color: #fff;
 }
-.subnav > li.active{
+.subnav > li.active {
 	background-color: #fff;
 }
 
 /* 取消分类列表li预订样式 */
-.all-todos .mainnav > li:before{
+#all-todos .mainnav > li:before {
 	content: '';
 	display: inline-block;
 	vertical-align: top;
@@ -98,13 +104,13 @@ header .title{
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
-.category .mainnav > li{
+.categorys .mainnav > li {
 	padding-left: 0;
 }
-.category .mainnav > li:hover{
+.categorys .mainnav > li:hover {
 	background-color: #f2f2f2;
 }
-.category .mainnav li a:before{
+.categorys .mainnav li a:before {
 	content: '';
 	display: inline-block;
 	vertical-align: top;
@@ -115,7 +121,7 @@ header .title{
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
-.category .subnav li:before{
+.categorys .subnav li:before {
 	content: '';
 	display: inline-block;
 	vertical-align: top;
@@ -126,8 +132,39 @@ header .title{
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
+.category {
+	position: relative;
+}
+.category > .category-del {
+	display: none;
+	position: absolute;
+	right: 10px;
+	top: 0;
+	cursor: pointer;
+}
+.category:hover > .category-del {
+	display: inline;
+}
+.task .task-del {
+	display: none;
+	float: right;
+	padding-right: 10px;
+	cursor: pointer;
+}
+.task:hover .task-del {
+	display: inline;
+}
+.sub-cate .sub-cate-del {
+	display: none;
+	float: right;
+	padding-right: 10px;
+	cursor: pointer;
+}
+.sub-cate:hover .sub-cate-del {
+	display: inline;
+}
 
-#submenu{
+#submenu {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -137,19 +174,19 @@ header .title{
 	background-color: #eeeeee;
 	border-right: 1px solid #cdcdcd;
 }
-#submenu .list-box{
+#submenu .list-box {
 	padding: 0;
 }
-#submenu .mainnav>li{
+#submenu .mainnav>li {
 	padding-left: 0;
 }
-.top-tab{
+.top-tab {
 	height: 40px;
 	padding: 0 12px;
 	line-height: 40px;
 	border-bottom: 1px solid #cdcdcd;
 }
-.top-tab a{
+.top-tab a {
 	display: inline-block;
 	line-height: 20px;
 	text-decoration: none;
@@ -158,13 +195,12 @@ header .title{
 	padding: 2px 5px;
 	border: 1px solid #eeeeee;
 }
-.top-tab a.active, .top-tab a:hover{
+.top-tab a.active, .top-tab a:hover {
 	background-color: #fff;
 	border: 1px solid #cdcdcd;
 	color: #050505;
 }
-
-#submenu .list-box{
+#submenu .list-box {
 	background-color: #fff;
 	position: absolute;
 	top: 41px;
@@ -172,8 +208,19 @@ header .title{
 	left: 0;
 	right: 0;
 }
+#submenu .task-time {
+	padding-left: 10px;
+	background-color: #ffffee;
+}
+#submenu .task-name {
+	padding-left: 20px;
+}
+#submenu .task.finished .task-name{
+	color: #00ff80;	
+}
 
-.add-new{
+
+.add-new-category, .add-new-task {
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -184,34 +231,34 @@ header .title{
 	width: 100%;
 	cursor: pointer;
 }
-.add-new p{
+.add-new-category p, .add-new-task p {
 	text-align: center;
 	font-size: 14px;
 }
-.add-new p i{
+.add-new-category p i, .add-new-task p i {
 	font-weight: bold;
 }
 
-
-#content{
+/* 任务面板 */
+.task-panel {
 	position: relative;
 	margin-left: 402px;
 	height: 100%;
 	background-color: #00ff80;
 }
-#content header{
+.task-panel .task-header {
 	background-color: #f2f2f2;
 	height: 50px;
 	width: 100%;
 	line-height: 50px;
 	border-bottom: 1px solid #cdcdcd;
 }
-#content header h2{
+.task-panel .task-header .task-title {
 	padding: 0 12px;
 	font-size: 16px;
 	font-weight: bold;
 }
-#content .datetime{
+.task-panel .task-datetime {
 	height: 50px;
 	font-size: 14px;
 	line-height: 50px;
@@ -219,28 +266,62 @@ header .title{
 	background-color: #ffffee;
 	border-bottom: 1px solid #cdcdcd;
 }
-#content .todo-content{
+.task-panel .task-content {
 	position: absolute;
 	top: 102px;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 12px;	
+	padding: 12px;
 	background-color: #fff;
-}
-#content .todo-content p{
 	font-size: 14px;
+}
+.task-panel .task-content .real-textarea {
+	width: 98%;
+	resize: vertical;
+	padding: 1%;
+}
+.task-panel .task-content .task-operation {
+	margin-top: 10px;
 }
 
 /* 下拉菜单组件 */
 .dropdown .dropdown-toggle {
-	
 }
-.dropdown .dropdown-toggle.active{
-	
+.dropdown .dropdown-toggle.active {
 }
 .dropdown .dropdown-menu {
+	/*display: none;*/
+}
+
+/* tab切换组件 */
+.tab-nav {
+}
+.tab-content {
+}
+.tab-content .tabpanel {
 	display: none;
+}
+
+.ok-btn, .cancel-btn {
+	border: none;
+	background-color: #0080ff;
+	color: #fff;
+	border-radius: 5px;
+	padding: 5px 10px;	
+	cursor: pointer;
+}
+
+.ok-btn:hover {
+	background-color: #004080;
+}
+
+.cancel-btn {
+	background-color: #ff8080;
+}
+
+.cancel-btn:hover {
+	background-color: #ff0000;
 }
 
 /* 遮蔽层组件 */
@@ -267,26 +348,26 @@ header .title{
 	background-color: #fff;
 	border-radius: 5px;
 	z-index: 10000;
-	padding: 40px 30px;  
+	padding: 40px 30px;
 }
-.overlay-mes p{
+.overlay-mes p {
 	font-size: 14px;
 	padding: 10px 0px;
 	margin-bottom: 5px;
 }
-.overlay-mes button{
+.overlay-mes button {
 	font-size: 14px;
 	padding: 5px 10px;
 	background-color: #fff;
 	border: 1px solid #fff;
 	cursor: pointer;
 }
-.overlay-mes button.ok{
+.overlay-mes button.ok {
 	border-color: #004080;
 	background-color: #fff;
 	color: #004080;
 }
-.overlay-mes button.ok:hover{
+.overlay-mes button.ok:hover {
 	background-color: #004080;
 	color: #fff;
 }
@@ -295,7 +376,7 @@ header .title{
 	background-color: #fff;
 	color: #c0c0c0;
 }
-.overlay-mes button.cancel:hover{
+.overlay-mes button.cancel:hover {
 	background-color: #c0c0c0;
 	color: #fff;
 }
@@ -305,7 +386,7 @@ header .title{
 	top: 10px;
 	right: 10px;
 }
-.overlay-mes.prompt input{
+.overlay-mes.prompt input {
 	width: 100%;
 	margin-bottom: 10px;
 	line-height: 20px;

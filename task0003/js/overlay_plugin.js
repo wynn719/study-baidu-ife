@@ -7,18 +7,19 @@ var getSingleton = function(fn) {
 
 var createOverlay = function() {
 	var ele = document.createElement('div'),
-		eleMsg = document.createElement('div');
+		eleMsg = document.createElement('div')
+		arr = [];
 
 	ele.className = 'overlay';
 	eleMsg.className = 'overlay-mes';
 
-	var html = '<i class="close">&times;</i>'
-		+ '<p>创建新任务</p>'
-		+ '<input type="text">'
-		+ '<button class="ok">确定</button>'
-		+ '<button class="cancel">取消</button>';
+	arr.push('<i class="close">&times;</i>');
+	arr.push('<p>创建新任务</p>');
+	arr.push('<input type="text">');
+	arr.push('<button class="ok">确定</button>');
+	arr.push('<button class="cancel">取消</button>');
 
-	eleMsg.innerHTML = html;
+	eleMsg.innerHTML = arr.join('');
 
 	document.body.appendChild(ele);
 	document.body.appendChild(eleMsg);
@@ -26,6 +27,7 @@ var createOverlay = function() {
 	ele.setMsg = function (msg) {
 		eleMsg.getElementsByName('p').innerHTML = msg;
 	};
+	
 	ele.show = function() {
 		this.style.display = 'block';
 		eleMsg.style.display = 'block';
@@ -41,11 +43,11 @@ var createOverlay = function() {
 /**
  * 测试用例
  */
-var createSingletonOverlay = getSingleton( createOverlay );
-var overlay = createSingletonOverlay();
+// var overlay = createSingletonOverlay();
+// var createSingletonOverlay = getSingleton( createOverlay );
 
-overlay.show();
-setTimeout(function(){
-	overlay.hide();
-}, 3000);
+// overlay.show();
+// setTimeout(function(){
+// 	overlay.hide();
+// }, 3000);
 
