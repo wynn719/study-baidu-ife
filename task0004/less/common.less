@@ -1,0 +1,202 @@
+@charset "utf-8";
+
+html {
+    height: 100%;
+}
+
+body {
+    line-height: 1.4;
+    padding: 0;
+    margin: 0;
+    font-family: "Microsoft Yahei";
+    height: 100%;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sprite {
+    width: 20px;
+    height: 20px;
+    background-image: url(../img/css-sprite.png);
+}
+
+.app-view {
+    height: 100%;
+    background-color: #ff8080;
+
+    .app-header{
+        height: 90px;
+
+        .header-container {
+            position: fixed;
+            width: 100%;
+            z-index: 10000;
+        }
+
+        .app-operation {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: #ff4040;
+            color: #fff;
+            box-shadow: 0 2px 3px rgba(0,0,0,.2);
+            margin-bottom: 8px;
+
+            .back-btn {
+                color: #fff;
+                flex: 1 1 20%;
+                font-size: 14px;
+            }
+
+            .app-title {
+                text-align: center;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+                flex: 1 1 60%;
+                font-size: 20px;
+            }
+
+            .edit-btn {
+                flex: 1 1 20%;
+            }
+        }
+        
+        .add-new-task-block {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            margin: 5px 5px 0;
+            border-radius: 5px;
+            background-color: rgb(57, 32, 32);
+
+            .new-task-input {
+                box-sizing: content-box;
+                flex: 2 1 80%;
+                background-color: rgba(0, 0, 0, 0);
+                border: none;
+                color: #fff;
+                font-size: 14px;
+                font-family: "Microsoft Yahei";
+
+                &:focus {
+                    outline: 0;
+                }
+            }
+
+            .ok-btn {
+                box-sizing: content-box;
+                flex: 1 1 20%;
+                color: #A9A9A9;
+                text-align: right;
+                font-size: 14px;
+            }
+        }
+    }
+    
+    .app-content {
+        padding-top: 5px;
+
+        .app-task-list {
+            .task {
+                position: relative;
+                display: flex;
+                align-items: center;
+                background-color: #fff;
+                color: #444;
+                margin: 7px 5px;
+                border-radius: 4px;
+                padding: 5px 10px;
+                height: 35px;
+
+                .checkbox {
+                    zoom: 150%;
+                    margin: 0;
+                    margin-top: 1px;
+                }
+
+                .cate-icon {
+                    background-position: 0 -4px;
+                }
+
+                .task-content {
+                    margin-left: 6px;
+                    margin-right: auto;
+
+                    .task-title {
+                        font-size: 14px;
+                        font-weight: bold;
+                        width: 200px;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
+
+                    .task-datetime {
+                        font-size: 12px;
+                        color: #999;
+                    }
+                }
+
+                .star-btn {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #000;
+                }
+
+                .delete-icon {
+                    background-position: 0 -60px;
+                }
+            }
+        }
+
+        .task-detail {
+            margin: 0 5px;
+            padding: 5px 10px;
+            color: #444;
+
+            .task-header {
+                padding-bottom: 10px;
+                height: 20px;
+                padding: 10px 0;
+
+                .task-datetime {
+                    float: right;
+                    font-size: 12px;
+                    color: #999;
+                }
+            }
+        }
+    }
+}   
+
+.task-view {
+    background-color: #fff;
+
+    .app-header {
+        height: 45px;
+    }
+}
+
+.category-view {
+    .app-header {
+        height: 45px;
+    }
+}
+
+
