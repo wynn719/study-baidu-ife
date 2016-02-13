@@ -1,4 +1,6 @@
-## Backbone(jquery + underscore + localStorage) + require.js + less 的SPA Todolist应用
+## Backbone
+
+(jquery + underscore + localStorage) + require.js + less 的SPA Todolist应用
 
 Todo:
 * 手势和动画
