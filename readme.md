@@ -7,7 +7,6 @@
 ## task0002
 
 0. 类jquery库 http://zhengbowei.github.io/study-baidu-ife/task0002/util/js/util-0.5.js
-
 1. 分割爱好 http://zhengbowei.github.io/study-baidu-ife/task0002/task0002_1/task0002_1.html
 2. 倒计时 http://zhengbowei.github.io/study-baidu-ife/task0002/task0002_2/task0002_2.html
 3. 轮播插件 http://zhengbowei.github.io/study-baidu-ife/task0002/task0002_3/task0002_3.html
