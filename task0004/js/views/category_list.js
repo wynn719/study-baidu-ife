@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/category', 'common', 'collections/tasks'], function(Backbone, $, _, CategoryCollection, CategoryView, Common, TaskCollection) {
+define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/category', 'common', 'collections/tasks', 'zeptoTouch'], function(Backbone, $, _, CategoryCollection, CategoryView, Common, TaskCollection) {
 
     // 目录列表页
     var CategoryListView = Backbone.View.extend({
@@ -8,12 +8,14 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
 
             this.$AddCategoryModal = $('#new-category-modal');
             this.$inputCateName = this.$AddCategoryModal.find('.cate-name');
+            this.$refreshBtn = this.$('.refresh-btn');
 
             this.listenTo(this.collection, 'add', this.addOne);
             this.listenTo(this.collection, 'reset', this.addAll);
             this.listenTo(this.collection, 'all', this.render);
+            this.listenTo(this.collection, 'add_category_invalid', this.addInvalid);
 
-            this.listenTo(this.tasksCollection, 'add', this.increaseTasksCount);
+            this.listenTo(this.tasksCollection, 'increase', this.increaseTasksCount);
             this.listenTo(this.tasksCollection, 'remove', this.decreaseTasksCount);
 
             this.collection.fetch();
@@ -21,12 +23,20 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
 
         el: $('#category-view'),
 
-        events: {
+        events: Common.is_phone() ? {
+            'tap #add-new-category': 'showAddCategoryModal',
+            'tap #new-category-modal .ok-btn': 'addOneCategory',
+            'tap #new-category-modal .unwrap-btn': 'hideAddCategoryModal',
+            'tap .app-content': 'hideAddCategoryModal',
+            'keypress #new-category-modal .cate-name': 'addOnEnter',
+            'tap .refresh-btn': 'refreshPage'
+        } : {
             'click #add-new-category': 'showAddCategoryModal',
             'click #new-category-modal .ok-btn': 'addOneCategory',
             'click #new-category-modal .unwrap-btn': 'hideAddCategoryModal',
             'click .app-content': 'hideAddCategoryModal',
-            'keypress #new-category-modal .cate-name': 'addOnEnter'
+            'keypress #new-category-modal .cate-name': 'addOnEnter',
+            'click .refresh-btn': 'refreshPage'
         },
 
         render: function() {
@@ -51,7 +61,6 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
         },
 
         addAll: function() {
-            // console.log('all');
             this.collection.each(this.addOne, this);
         },
 
@@ -76,8 +85,7 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
         },
 
         // 更新对应目录的子任务数
-        increaseTasksCount: function(task) {
-            var cateId = task.get('cate');
+        increaseTasksCount: function(cateId) {
             var category = this.collection.findWhere({
                 id: cateId
             });
@@ -90,6 +98,17 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
                 id: cateId
             });
             category.updateSubcateCount('remove');
+        },
+
+        refreshPage: function (e) {
+            e.preventDefault();
+
+            window.location.reload(false);
+        },
+
+        addInvalid: function (model, error) {
+            model.destroy();
+            alert(error);
         }
     });
 

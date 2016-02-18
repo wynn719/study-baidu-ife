@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/tasks'], function(Backbone, $, _, appRouter, TaskCollection) {
+define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/tasks', 'common'], function(Backbone, $, _, appRouter, TaskCollection, Common) {
 
     // 单个目录视图
     var CategoryView = Backbone.View.extend({
@@ -26,20 +26,28 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
         },
 
         // 管理该view的所有事件
-        events: {
+        events: Common.is_phone() ? {
             // 绑定对应函数
-            'click': 'openCate', // 不指定时，指向元素本身
+            'tap': 'openCate', // 不指定时，指向元素本身
+            'tap .delete-icon': 'clear'
+        } : {
+            'click': 'openCate',
             'click .delete-icon': 'clear'
         },
 
         openCate: function(e) {
+            e.preventDefault();
+            if (e.target.className.indexOf('delete-icon') !== -1
+                || e.target.className.indexOf('sprite') !== -1) 
+                return false;
+
             window.appRouter.navigate("category_" + this.model.id, {
                 trigger: true
             });
         },
 
         clear: function(e) {
-            e.stopPropagation();
+            e.preventDefault();
 
             var ret = true;
             if (this.model.get('tasks_count')) {

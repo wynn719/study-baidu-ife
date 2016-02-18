@@ -6,7 +6,7 @@ body {
   line-height: 1.4;
   padding: 0;
   margin: 0;
-  font-family: "Microsoft Yahei";
+  font-family: "Microsoft Yahei", serif;
   height: 100%;
 }
 ul,
@@ -23,20 +23,27 @@ a {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
+input {
+  vertical-align: middle;
+}
 @-webkit-keyframes fade-in {
   from {
-    opacity: 0.8;
+    -webkit-transform: scale(0.97, 0.97);
+            transform: scale(0.97, 0.97);
   }
   to {
-    opacity: 1;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
   }
 }
 @keyframes fade-in {
   from {
-    opacity: 0.8;
+    -webkit-transform: scale(0.97, 0.97);
+            transform: scale(0.97, 0.97);
   }
   to {
-    opacity: 1;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
   }
 }
 .sprite {
@@ -46,23 +53,24 @@ a {
   background-image: url(../img/css-sprite.png);
   background-repeat: no-repeat;
 }
+.hide {
+  display: none;
+}
 .add-icon {
   margin-top: 5px;
   width: 30px;
   height: 30px;
   background-position: 5px -139px;
 }
-.hide {
-  display: none;
+body {
+  background-color: #ff8080;
 }
+/* 公共视图类 start */
 .app-view {
   height: 100%;
-  background-color: #ff8080;
-  -webkit-animation: fade-in 0.3s;
-          animation: fade-in 0.3s;
 }
 .app-view .app-header {
-  height: 90px;
+  height: 45px;
 }
 .app-view .app-header .header-container {
   position: fixed;
@@ -105,7 +113,7 @@ a {
           flex: 1 1 60%;
   font-size: 20px;
 }
-.app-view .app-header .app-operation .edit-btn {
+.app-view .app-header .app-operation .refresh-btn {
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 20%;
       -ms-flex: 1 1 20%;
@@ -130,6 +138,8 @@ a {
   background-color: #392020;
 }
 .app-view .app-header .add-new-task-block .new-task-input {
+  padding: 0;
+  margin: 0;
   box-sizing: content-box;
   -webkit-box-flex: 2;
   -webkit-flex: 2 1 80%;
@@ -155,10 +165,19 @@ a {
   font-size: 14px;
 }
 .app-view .app-content {
-  padding-top: 5px;
-  min-height: 300px;
+  position: absolute;
+  top: 44px;
+  left: 0;
+  bottom: 40px;
+  width: 100%;
+  background-color: #ff8080;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  -webkit-animation: fade-in 0.3s;
+          animation: fade-in 0.3s;
+  padding-top: 7px;
 }
-.app-view .app-content .app-task-list li {
+.app-view .app-content .app-task-list .task {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -170,27 +189,29 @@ a {
           align-items: center;
   background-color: #fff;
   color: #444;
-  margin: 7px 5px;
+  margin: 0 5px 7px;
   border-radius: 4px;
-  padding: 5px 10px;
-  height: 35px;
+  height: 45px;
 }
-.app-view .app-content .app-task-list li .checkbox {
+.app-view .app-content .app-task-list .task .checkbox {
+  padding: 11px 6px 11px 10px;
+}
+.app-view .app-content .app-task-list .task .checkbox input {
   zoom: 150%;
   margin: 0;
-  margin-top: 1px;
+  margin-top: -1px;
 }
-.app-view .app-content .app-task-list li .cate-icon {
+.app-view .app-content .app-task-list .task .cate-icon {
   background-position: 0 -4px;
+  margin: 0 6px 0 10px;
 }
-.app-view .app-content .app-task-list li .task-icon {
+.app-view .app-content .app-task-list .task .task-icon {
   background-position: 0 -32px;
 }
-.app-view .app-content .app-task-list li .task-content {
-  margin-left: 6px;
+.app-view .app-content .app-task-list .task .task-content {
   margin-right: auto;
 }
-.app-view .app-content .app-task-list li .task-content .task-title {
+.app-view .app-content .app-task-list .task .task-content .task-title {
   font-size: 14px;
   font-weight: bold;
   width: 200px;
@@ -198,17 +219,21 @@ a {
   overflow: hidden;
   white-space: nowrap;
 }
-.app-view .app-content .app-task-list li .task-content .task-datetime {
+.app-view .app-content .app-task-list .task .task-content .task-datetime {
   font-size: 12px;
   color: #999;
 }
-.app-view .app-content .app-task-list li .star-btn {
+.app-view .app-content .app-task-list .task .star-btn {
   font-size: 18px;
   font-weight: bold;
   color: #000;
 }
-.app-view .app-content .app-task-list li .delete-icon {
+.app-view .app-content .app-task-list .task .delete-icon {
+  padding: 10px;
+}
+.app-view .app-content .app-task-list .task .delete-icon .sprite {
   background-position: 0 -60px;
+  vertical-align: middle;
 }
 .app-view .app-content .app-task-list .finished {
   opacity: 0.5;
@@ -238,11 +263,13 @@ a {
 .app-view .app-footer .new-category-modal {
   height: 100px;
 }
+/* 公共视图类 end */
+/* 任务详情视图 start */
 #task-view {
   background-color: #fff;
 }
 #task-view .app-header {
-  height: 45px;
+  height: 44px;
 }
 #task-view .app-header .app-operation {
   background-color: #fff;
@@ -254,7 +281,7 @@ a {
   color: #444;
   font-weight: bold;
 }
-#task-view .app-header .app-operation .edit-btn {
+#task-view .app-header .app-operation .refresh-btn {
   color: #999;
 }
 #task-view .app-header .app-operation .edit-title {
@@ -271,6 +298,10 @@ a {
 }
 #task-view .app-header .app-operation .edit-title:focus {
   outline: 0;
+}
+#task-view .app-content {
+  bottom: 0;
+  background-color: #fff;
 }
 #task-view .app-content .task-header {
   border-bottom: 1px solid #b9b9b9;
@@ -312,7 +343,18 @@ a {
 #task-view .app-content .task-content #edit-content:focus {
   outline: 0;
 }
-.category-view .app-header {
+/* 任务详情视图 end */
+/* 任务列表视图 start */
+#task-list-view .app-header {
+  height: 90px;
+}
+#task-list-view .app-content {
+  top: 89px;
+  bottom: 0;
+}
+/* 任务列表视图 end */
+/* 目录列表视图 start */
+#category-view .app-header {
   height: 45px;
 }
 #new-category-modal {
@@ -358,3 +400,4 @@ a {
   color: #c0c0c0;
   font-size: 14px;
 }
+/* 目录列表视图 end */

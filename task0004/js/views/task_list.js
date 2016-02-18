@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/tasks', 'views/task', 'collections/categorys'], function (Backbone, $, _, AppRouter, TaskCollection, TaskView, CategoryCollection) {
+define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/tasks', 'views/task', 'collections/categorys', 'common', 'zeptoTouch'], function (Backbone, $, _, AppRouter, TaskCollection, TaskView, CategoryCollection, Common) {
 
     // 任务列表视图
     var TaskListView = Backbone.View.extend({
@@ -13,6 +13,7 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
             this.listenTo(this.collection, 'add', this.addOne);
             this.listenTo(this.collection, 'reset', this.addAll);
             this.listenTo(this.collection, 'all', this.render);
+            this.listenTo(this.collection, 'add_task_invalid', this.addTaskInvalid);
 
             this.listenTo(AppRouter, 'route:category', this.showTasksByCateId);
 
@@ -25,9 +26,15 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
 
         el: $('#task-list-view'),
 
-        events: {
+        events: Common.is_phone() ? {
+            'swipeRight': 'goBack',
+            'tap .ok-btn': 'addOneTask',
+            'tap .back-btn': 'goBack',
+            'tap .refresh-btn': 'refreshPage'
+        } : {
             'click .ok-btn': 'addOneTask',
-            'click .back-btn': 'goBack'
+            'click .back-btn': 'goBack',
+            'click .refresh-btn': 'refreshPage'
         },
 
         addOne: function(task) {
@@ -36,7 +43,6 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
         },
 
         addAll: function() {
-            console.log('all')
             this.collection.each(this.addOne, this);            
         },
 
@@ -48,11 +54,11 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
                 cate: cate_id
             });
             this.$newTaskInput.val('');
+            this.collection.trigger('increase', cate_id);
         },
 
         resetView: function () {
             this.$ulContainer.html('');
-            this.$newTaskInput.focus();
         },
 
         // 根据cate_id来决定显示的任务
@@ -66,6 +72,16 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
         goBack: function (e) {
             e.preventDefault();
             window.appRouter.navigate('', true);
+        },
+
+        refreshPage: function (e) {
+            e.preventDefault();
+            window.location.reload(false);
+        },
+
+        addTaskInvalid: function (model, error) {
+            model.destroy();
+            alert(error);
         }
     });
 

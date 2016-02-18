@@ -11,16 +11,28 @@ define(['backbone', 'underscore'], function(Backbone, _) {
             }
         },
 
+        validate: function(attrs, options) {
+            var error = '';
+            if (attrs['name'].trim() == '') {
+                return '任务名不能为空';
+            }
+        },
+
         initialize: function() {
-            
+            this.on('invalid', function(model, error) {
+                if (model.id) { //修改
+                    this.trigger('update_task_invalid', model, error);
+                } else {
+                    this.trigger('add_task_invalid', model, error);
+                }
+            });
         },
 
         toggle: function() {
             var is_finished = this.get('is_finished');
-            this.set({
+            this.save({
                 'is_finished': !is_finished
             });
-            this.save();
         }
     });
 

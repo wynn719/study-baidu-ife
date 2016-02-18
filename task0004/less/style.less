@@ -1,60 +1,17 @@
 @charset "utf-8";
 
-html {
-    height: 100%;
-}
-body {
-    line-height: 1.4;
-    padding: 0;
-    margin: 0;
-    font-family: "Microsoft Yahei";
-    height: 100%;
-}
-ul, li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-p {
-    padding: 0;
-    margin: 0;
-}
-a {
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-}
-@keyframes fade-in {
-    from {
-        opacity: 0.8
-    }
+@import "reset.less";
+@import "global.less";
 
-    to {
-        opacity: 1
-    }
+body {
+    background-color: #ff8080;
 }
-.sprite {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/css-sprite.png);
-    background-repeat: no-repeat;
-}
-.add-icon {
-    margin-top: 5px;
-    width: 30px;
-    height: 30px;
-    background-position: 5px -139px;
-}
-.hide {
-    display: none;
-}
+
+/* 公共视图类 start */
 .app-view {
     height: 100%;
-    background-color: #ff8080;
-    animation: fade-in .3s;
-
     .app-header {
-        height: 90px;
+        height: 45px;
 
         .header-container {
             position: fixed;
@@ -85,7 +42,7 @@ a {
                 flex: 1 1 60%;
                 font-size: 20px;
             }
-            .edit-btn {
+            .refresh-btn {
                 flex: 1 1 20%;
                 text-decoration: none;
                 color: #fff;
@@ -102,6 +59,8 @@ a {
             background-color: rgb(57, 32, 32);
 
             .new-task-input {
+                padding: 0;
+                margin: 0;
                 box-sizing: content-box;
                 flex: 2 1 80%;
                 background-color: rgba(0, 0, 0, 0);
@@ -124,34 +83,45 @@ a {
         }
     }
     .app-content {
-        padding-top: 5px;
-        min-height: 300px;
+        position: absolute;
+        top: 44px;
+        left: 0;
+        bottom: 40px;
+        width: 100%;
+        background-color: #ff8080;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch; // 开启弹性滚动
+        animation: fade-in .3s;
+        padding-top: 7px;
 
         .app-task-list {
-            li {
+            .task {
                 position: relative;
                 display: flex;
                 align-items: center;
                 background-color: #fff;
                 color: #444;
-                margin: 7px 5px;
+                margin: 0 5px 7px;
                 border-radius: 4px;
-                padding: 5px 10px;
-                height: 35px;
+                height: 45px;
 
                 .checkbox {
-                    zoom: 150%;
-                    margin: 0;
-                    margin-top: 1px;
+                    padding: 11px 6px 11px 10px;
+
+                    input {
+                        zoom: 150%;
+                        margin: 0;
+                        margin-top: -1px;
+                    }
                 }
                 .cate-icon {
                     background-position: 0 -4px;
+                    margin: 0 6px 0 10px;
                 }
                 .task-icon {
                     background-position: 0 -32px;
                 }
                 .task-content {
-                    margin-left: 6px;
                     margin-right: auto;
 
                     .task-title {
@@ -173,7 +143,12 @@ a {
                     color: #000;
                 }
                 .delete-icon {
-                    background-position: 0 -60px;
+                    padding: 10px;
+
+                    .sprite {
+                        background-position: 0 -60px;
+                        vertical-align: middle;
+                    }
                 }
             }
             .finished {
@@ -209,11 +184,14 @@ a {
         }
     }
 }
+/* 公共视图类 end */
+
+/* 任务详情视图 start */
 #task-view {
     background-color: #fff;
 
     .app-header {
-        height: 45px;
+        height: 44px;
 
         .app-operation {
             background-color: #fff;
@@ -225,7 +203,7 @@ a {
                 color: #444;
                 font-weight: bold;
             }
-            .edit-btn {
+            .refresh-btn {
                 color: #999;
             }
             .edit-title {
@@ -244,6 +222,9 @@ a {
         }
     }
     .app-content {
+        bottom: 0;
+        background-color: #fff;
+
         .task-header {
             border-bottom: 1px solid #b9b9b9;
 
@@ -289,11 +270,28 @@ a {
         }
     }
 }
-.category-view {
+/* 任务详情视图 end */
+
+/* 任务列表视图 start */
+#task-list-view {
+    .app-header {
+        height: 90px;
+    }
+
+    .app-content {
+        top: 89px;
+        bottom: 0;
+    }
+}
+/* 任务列表视图 end */
+
+/* 目录列表视图 start */
+#category-view {
     .app-header {
         height: 45px;
     }
 }
+
 #new-category-modal {
     box-sizing: content-box;
     position: fixed;
@@ -340,3 +338,6 @@ a {
         }
     }
 }
+/* 目录列表视图 end */
+
+
