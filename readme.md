@@ -4,8 +4,6 @@
 
 当然，之前错过了报名，没有导师review代码，只能自己判断代码的优劣性了……
 
-有大神路过帮忙看下……
-
 ## task0002
 
 0. 类jquery库 http://zhengbowei.github.io/study-baidu-ife/task0002/util/js/util-0.5.js
@@ -18,4 +16,10 @@
 
 ## task0003
 
-PC Todo app(原生js) http://zhengbowei.github.io/study-baidu-ife/task0003/index.html
+PC Todo app(原生js) http://zhengbowei.github.io/study-baidu-ife/task0003
+
+## task0004
+
+初试Backbone(jquery + underscore + localStorage + require.js + less) SPA Todolist应用
+
+http://zhengbowei.github.io/study-baidu-ife/task0004
