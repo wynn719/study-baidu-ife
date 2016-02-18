@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'collections/tasks'], function(Backbone, $, TaskCollection) {
+define(['backbone', 'jquery', 'collections/tasks', 'common', 'zeptoTouch'], function(Backbone, $, TaskCollection, Common) {
 
     // 任务详情
     var TaskDetailView = Backbone.View.extend({
@@ -10,18 +10,29 @@ define(['backbone', 'jquery', 'collections/tasks'], function(Backbone, $, TaskCo
             this.$datetime = this.$('.task-datetime');
             this.$editContent = this.$('#edit-content');
 
+            this.data = {};
+
             this.listenTo(window.appRouter, 'route:task', this.render);
 
             this.listenTo(this.taskCollection, 'task_init', this.render);
+            this.listenTo(this.taskCollection, 'update_task_invalid', this.taskInvalid);
         },
 
         el: $('#task-view'),
 
-        events: {
+        events: Common.is_phone() ? {
+            'swipeRight': 'goBack',
+            'tap .app-title': 'editTitle',
+            'blur .edit-title': 'updateTaskTitle',
+            'blur #edit-content': 'updateTaskContent',
+            'tap .back-btn': 'goBack',
+            'tap .refresh-btn': 'refreshPage'
+        } : {
             'click .app-title': 'editTitle',
             'blur .edit-title': 'updateTaskTitle',
             'blur #edit-content': 'updateTaskContent',
-            'click .back-btn': 'goBack'
+            'click .back-btn': 'goBack',
+            'click .refresh-btn': 'refreshPage'
         },
 
         render: function(taskId) {
@@ -29,7 +40,7 @@ define(['backbone', 'jquery', 'collections/tasks'], function(Backbone, $, TaskCo
                 id: taskId
             });
             this.model = task;
-            var data = {
+            this.data = {
                 title: task.get('name'),
                 created: task.get('created').substr(0, 10),
                 content: task.get('content'),
@@ -37,10 +48,10 @@ define(['backbone', 'jquery', 'collections/tasks'], function(Backbone, $, TaskCo
                 isFinished: task.get('is_finished')
             };
 
-            this.$title.text(data.title);
-            this.$editTitle.val(data.title);
-            this.$datetime.text(data.created);
-            this.$editContent.text(data.content);
+            this.$title.text(this.data.title);
+            this.$editTitle.val(this.data.title);
+            this.$datetime.text(this.data.created);
+            this.$editContent.val(this.data.content);
         },
 
         editTitle: function(e) {
@@ -56,27 +67,36 @@ define(['backbone', 'jquery', 'collections/tasks'], function(Backbone, $, TaskCo
 
         updateTaskTitle: function(e) {
             var title = this.$editTitle.val();
+
             this.$title.text(title);
-            this.model.set({
+            this.model.save({
                 name: title
             });
-            this.model.save();
 
             this.toggleTitleEdit();
         },
 
         updateTaskContent: function(e) {
             var content = this.$editContent.val();
-            this.$editContent.val(content);
-            this.model.set({
+            this.model.save({
                 content: content
             });
-            this.model.save();
         },
 
         goBack: function (e) {
             e.preventDefault();
             window.history.back();
+        },
+
+        refreshPage: function (e) {
+            e.preventDefault();
+            window.location.reload(false);
+        },
+
+        taskInvalid: function (model, error) {
+            this.$title.text(this.data.title);
+            this.$editTitle.val(this.data.title);
+            alert(error);
         }
     });
 

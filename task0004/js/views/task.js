@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'underscore'], function(Backbone, $, _) {
+define(['backbone', 'jquery', 'underscore', 'common', 'zeptoTouch'], function(Backbone, $, _, Common) {
 
     // 单个任务的视图
     var TaskView = Backbone.View.extend({
@@ -13,7 +13,11 @@ define(['backbone', 'jquery', 'underscore'], function(Backbone, $, _) {
 
         template: _.template( $('#task_li').html() ),
 
-        events: {
+        events: Common.is_phone() ? {
+            'tap': 'openTask',
+            'tap .delete-icon': 'clear',
+            'tap .checkbox': 'toggleTaskState' 
+        } : {
             'click': 'openTask',
             'click .delete-icon': 'clear',
             'click .checkbox': 'toggleTaskState' 
@@ -26,19 +30,27 @@ define(['backbone', 'jquery', 'underscore'], function(Backbone, $, _) {
         },
 
         clear: function(e) {
-            e.stopPropagation();
-
+            e.preventDefault();
             this.model.destroy();
         },
 
         toggleTaskState: function(e) {
-            e.stopPropagation();
+            e.preventDefault();
+            if (e.target.className.indexOf('checkbox') === -1) 
+                return false;
 
             this.model.toggle();
             this.$el.toggleClass('finished', this.model.get('is_finished'));
         },
 
-        openTask: function() {
+        openTask: function(e) {
+            e.preventDefault();
+            if (e.target.className.indexOf('delete-icon') !== -1
+                || e.target.className.indexOf('checkbox') !== -1
+                || e.target.className.indexOf('sprite') !== -1
+                || e.target.className.indexOf('checkbox-input') !== -1) 
+                return false;
+
             window.appRouter.navigate('task_' + this.model.get('id'), true);
         },
 

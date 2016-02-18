@@ -8,12 +8,17 @@ define(['backbone', 'underscore'], function(Backbone, _) {
             is_default: 0
         },
 
+        validate: function(attrs, options) {
+            var error = '';
+            if (attrs['name'].trim() == '') {
+                return '目录名不能为空';
+            }
+        },
+
         // 初始化
         initialize: function() {
-            // 为model绑定name属性变更事件，变更完触发callback
-            // this.on('change', function(){}) 监听所有事件
-            this.on('change', function(model) {
-                var name = model.get('name');
+            this.on('invalid', function(model, error) {
+                this.trigger('add_category_invalid', model, error);
             });
         },
 
@@ -25,7 +30,7 @@ define(['backbone', 'underscore'], function(Backbone, _) {
                 count--;
             }
 
-            this.set({
+            this.save({
                 'tasks_count': count
             });
         }

@@ -1,0 +1,36 @@
+@-webkit-keyframes fade-in {
+  from {
+    -webkit-transform: scale(0.97, 0.97);
+            transform: scale(0.97, 0.97);
+  }
+  to {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+}
+@keyframes fade-in {
+  from {
+    -webkit-transform: scale(0.97, 0.97);
+            transform: scale(0.97, 0.97);
+  }
+  to {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+}
+.sprite {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/css-sprite.png);
+  background-repeat: no-repeat;
+}
+.hide {
+  display: none;
+}
+.add-icon {
+  margin-top: 5px;
+  width: 30px;
+  height: 30px;
+  background-position: 5px -139px;
+}
