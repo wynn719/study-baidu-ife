@@ -19,6 +19,10 @@ PC Todo app(原生js) http://zhengbowei.github.io/study-baidu-ife/task0003
 
 ## task0004
 
+<<<<<<< HEAD
 初试Backbone(jquery + underscore + localStorage + require.js + less) SPA Todolist应用
+=======
+初试Backbone(jquery + underscore + localStorage + require.js + less) SPA webapp(移动端)
+>>>>>>> master
 
 http://zhengbowei.github.io/study-baidu-ife/task0004

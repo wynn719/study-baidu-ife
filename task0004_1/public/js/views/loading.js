@@ -1,0 +1,1 @@
+define(["backbone","routers/default"],function(e,n){var i=e.View.extend({initialize:function(){},render:function(){}});return i});

@@ -1,0 +1,1 @@
+define(["backbone","jquery","underscore","models/task","localStorage"],function(e,o,a,n,l){var r=e.Collection.extend({model:n,localStorage:new l("Task-data")}),t=new r;return t});
