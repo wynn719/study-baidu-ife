@@ -1,0 +1,1 @@
+define(["backbone","jquery","underscore","models/category","localStorage"],function(e,o,a,r,n){var t=e.Collection.extend({model:r,localStorage:new e.LocalStorage("Category-data")}),l=new t;return l});

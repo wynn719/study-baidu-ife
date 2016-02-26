@@ -1,0 +1,343 @@
+@charset "utf-8";
+
+@import "reset.less";
+@import "global.less";
+
+body {
+    background-color: #ff8080;
+}
+
+/* 公共视图类 start */
+.app-view {
+    height: 100%;
+    .app-header {
+        height: 45px;
+
+        .header-container {
+            position: fixed;
+            width: 100%;
+            z-index: 10000;
+        }
+        .app-operation {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: #ff4040;
+            color: #fff;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, .2);
+            margin-bottom: 8px;
+            height: 28px;
+
+            .back-btn {
+                color: #fff;
+                flex: 1 1 20%;
+                font-size: 14px;
+            }
+            .app-title {
+                text-align: center;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+                flex: 1 1 60%;
+                font-size: 20px;
+            }
+            .refresh-btn {
+                flex: 1 1 20%;
+                text-decoration: none;
+                color: #fff;
+                text-align: right;
+                font-size: 14px;
+            }
+        }
+        .add-new-task-block {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            margin: 5px 5px 0;
+            border-radius: 5px;
+            background-color: rgb(57, 32, 32);
+
+            .new-task-input {
+                padding: 0;
+                margin: 0;
+                box-sizing: content-box;
+                flex: 2 1 80%;
+                background-color: rgba(0, 0, 0, 0);
+                border: none;
+                color: #fff;
+                font-size: 14px;
+                font-family: "Microsoft Yahei";
+
+                &:focus {
+                    outline: 0;
+                }
+            }
+            .ok-btn {
+                box-sizing: content-box;
+                flex: 1 1 20%;
+                color: #A9A9A9;
+                text-align: right;
+                font-size: 14px;
+            }
+        }
+    }
+    .app-content {
+        position: absolute;
+        top: 44px;
+        left: 0;
+        bottom: 40px;
+        width: 100%;
+        background-color: #ff8080;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch; // 开启弹性滚动
+        animation: fade-in .3s;
+        padding-top: 7px;
+
+        .app-task-list {
+            .task {
+                position: relative;
+                display: flex;
+                align-items: center;
+                background-color: #fff;
+                color: #444;
+                margin: 0 5px 7px;
+                border-radius: 4px;
+                height: 45px;
+
+                .checkbox {
+                    padding: 11px 6px 11px 10px;
+
+                    input {
+                        zoom: 150%;
+                        margin: 0;
+                        margin-top: -1px;
+                    }
+                }
+                .cate-icon {
+                    background-position: 0 -4px;
+                    margin: 0 6px 0 10px;
+                }
+                .task-icon {
+                    background-position: 0 -32px;
+                }
+                .task-content {
+                    margin-right: auto;
+
+                    .task-title {
+                        font-size: 14px;
+                        font-weight: bold;
+                        width: 200px;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
+                    .task-datetime {
+                        font-size: 12px;
+                        color: #999;
+                    }
+                }
+                .star-btn {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #000;
+                }
+                .delete-icon {
+                    padding: 10px;
+
+                    .sprite {
+                        background-position: 0 -60px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+            .finished {
+                opacity: 0.5;
+            }
+        }
+        .task-detail {
+            margin: 0 5px;
+            padding: 5px 10px;
+            color: #444;
+
+            .task-header {
+                padding-bottom: 10px;
+                height: 20px;
+                padding: 10px 0;
+            }
+        }
+    }
+    .app-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10000;
+
+        .footer-container {
+            height: 40px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .new-category-modal {
+            height: 100px;
+        }
+    }
+}
+/* 公共视图类 end */
+
+/* 任务详情视图 start */
+#task-view {
+    background-color: #fff;
+
+    .app-header {
+        height: 44px;
+
+        .app-operation {
+            background-color: #fff;
+
+            .back-btn {
+                color: #999;
+            }
+            .app-title {
+                color: #444;
+                font-weight: bold;
+            }
+            .refresh-btn {
+                color: #999;
+            }
+            .edit-title {
+                border: none;
+                color: #444;
+                font-family: "微软雅黑";
+                font-size: 20px;
+                margin: 0;
+                padding: 0;
+                flex: 1 1 60%;
+
+                &:focus {
+                    outline: 0;
+                }
+            }
+        }
+    }
+    .app-content {
+        bottom: 0;
+        background-color: #fff;
+
+        .task-header {
+            border-bottom: 1px solid #b9b9b9;
+
+            .time-icon {
+                background-position: -1px -200px;
+                vertical-align: middle;
+            }
+            .task-datetime {
+                text-align: left;
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 12px;
+                color: #999;
+                margin-left: 10px;
+            }
+        }
+        .task-content {
+            padding: 10px 0;
+            position: relative;
+
+            .edit {
+                position: absolute;
+                display: inline-block;
+                background-position: -1px -170px;
+            }
+            .text-content {
+                display: inline-block;
+            }
+            #edit-content {
+                border: none;
+                font-family: "微软雅黑";
+                width: 100%;
+                font-size: 16px;
+                box-sizing: content-box;
+                padding: 0;
+                overflow: hidden;
+                resize: none;
+
+                &:focus {
+                    outline: 0;
+                }
+            }
+        }
+    }
+}
+/* 任务详情视图 end */
+
+/* 任务列表视图 start */
+#task-list-view {
+    .app-header {
+        height: 90px;
+    }
+
+    .app-content {
+        top: 89px;
+        bottom: 0;
+    }
+}
+/* 任务列表视图 end */
+
+/* 目录列表视图 start */
+#category-view {
+    .app-header {
+        height: 45px;
+    }
+}
+
+#new-category-modal {
+    box-sizing: content-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
+    z-index: 10001;
+
+    .container {
+        padding: 15px;
+
+        .cate-name {
+            box-sizing: content-box;
+            display: block;
+            font-size: 18px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: none;
+            color: #444;
+
+            &:focus {
+                outline: 0;
+            }
+        }
+        .ok-btn {
+            position: absolute;
+            padding: 10px 15px;
+            bottom: 0;
+            right: 0;
+            color: #0080ff;
+            font-size: 14px;
+        }
+        .unwrap-btn {
+            position: absolute;
+            padding: 10px 15px;
+            bottom: 0;
+            left: 0;
+            color: #c0c0c0;
+            font-size: 14px;
+        }
+    }
+}
+/* 目录列表视图 end */
+
+
