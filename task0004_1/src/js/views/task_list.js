@@ -69,13 +69,13 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
             }, this);
         },
 
-        goBack: function (e) {
-            e.preventDefault();
+        goBack: function (event) {
+            event.preventDefault();
             window.appRouter.navigate('', true);
         },
 
-        refreshPage: function (e) {
-            e.preventDefault();
+        refreshPage: function (event) {
+            event.preventDefault();
             window.location.reload(false);
         },
 

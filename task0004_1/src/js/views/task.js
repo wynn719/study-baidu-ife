@@ -29,26 +29,26 @@ define(['backbone', 'jquery', 'underscore', 'common', 'zeptoTouch'], function(Ba
             return this;
         },
 
-        clear: function(e) {
-            e.preventDefault();
+        clear: function(event) {
+            event.preventDefault();
             this.model.destroy();
         },
 
-        toggleTaskState: function(e) {
-            e.preventDefault();
-            if (e.target.className.indexOf('checkbox') === -1) 
+        toggleTaskState: function(event) {
+            event.preventDefault();
+            if (event.target.className.indexOf('checkbox') === -1) 
                 return false;
 
             this.model.toggle();
             this.$el.toggleClass('finished', this.model.get('is_finished'));
         },
 
-        openTask: function(e) {
-            e.preventDefault();
-            if (e.target.className.indexOf('delete-icon') !== -1
-                || e.target.className.indexOf('checkbox') !== -1
-                || e.target.className.indexOf('sprite') !== -1
-                || e.target.className.indexOf('checkbox-input') !== -1) 
+        openTask: function(event) {
+            event.preventDefault();
+            if (event.target.className.indexOf('delete-icon') !== -1
+                || event.target.className.indexOf('checkbox') !== -1
+                || event.target.className.indexOf('sprite') !== -1
+                || event.target.className.indexOf('checkbox-input') !== -1) 
                 return false;
 
             window.appRouter.navigate('task_' + this.model.get('id'), true);

@@ -43,12 +43,12 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
             if (!this.collection.length) {}
         },
 
-        showAddCategoryModal: function(e) {
+        showAddCategoryModal: function(event) {
             this.$AddCategoryModal.removeClass('hide');
             this.$inputCateName.focus();
         },
 
-        hideAddCategoryModal: function(e) {
+        hideAddCategoryModal: function(event) {
             this.$AddCategoryModal.addClass('hide');
             this.$inputCateName.val('');
         },
@@ -65,7 +65,7 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
         },
 
         // 添加一个新的目录
-        addOneCategory: function(e) {
+        addOneCategory: function(event) {
             var cateName = this.$('.cate-name').val();
 
             if (cateName) {
@@ -78,8 +78,8 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
             this.hideAddCategoryModal();
         },
 
-        addOnEnter: function(e) {
-            if (e.which === Common.ENTER_KEY) {
+        addOnEnter: function(event) {
+            if (event.which === Common.ENTER_KEY) {
                 this.addOneCategory();
             }
         },
@@ -100,8 +100,8 @@ define(['backbone', 'jquery', 'underscore', 'collections/categorys', 'views/cate
             category.updateSubcateCount('remove');
         },
 
-        refreshPage: function (e) {
-            e.preventDefault();
+        refreshPage: function (event) {
+            event.preventDefault();
 
             window.location.reload(false);
         },

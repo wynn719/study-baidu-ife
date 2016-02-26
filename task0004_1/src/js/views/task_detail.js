@@ -54,7 +54,7 @@ define(['backbone', 'jquery', 'collections/tasks', 'common', 'zeptoTouch'], func
             this.$editContent.val(this.data.content);
         },
 
-        editTitle: function(e) {
+        editTitle: function(event) {
             this.toggleTitleEdit();
             this.$editTitle.focus();
         },
@@ -65,7 +65,7 @@ define(['backbone', 'jquery', 'collections/tasks', 'common', 'zeptoTouch'], func
 
         },
 
-        updateTaskTitle: function(e) {
+        updateTaskTitle: function(event) {
             var title = this.$editTitle.val();
 
             this.$title.text(title);
@@ -76,20 +76,20 @@ define(['backbone', 'jquery', 'collections/tasks', 'common', 'zeptoTouch'], func
             this.toggleTitleEdit();
         },
 
-        updateTaskContent: function(e) {
+        updateTaskContent: function(event) {
             var content = this.$editContent.val();
             this.model.save({
                 content: content
             });
         },
 
-        goBack: function (e) {
-            e.preventDefault();
+        goBack: function (event) {
+            event.preventDefault();
             window.history.back();
         },
 
-        refreshPage: function (e) {
-            e.preventDefault();
+        refreshPage: function (event) {
+            event.preventDefault();
             window.location.reload(false);
         },
 

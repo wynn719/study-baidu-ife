@@ -35,10 +35,10 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
             'click .delete-icon': 'clear'
         },
 
-        openCate: function(e) {
-            e.preventDefault();
-            if (e.target.className.indexOf('delete-icon') !== -1
-                || e.target.className.indexOf('sprite') !== -1) 
+        openCate: function(event) {
+            event.preventDefault();
+            if (event.target.className.indexOf('delete-icon') !== -1
+                || event.target.className.indexOf('sprite') !== -1) 
                 return false;
 
             window.appRouter.navigate("category_" + this.model.id, {
@@ -46,8 +46,8 @@ define(['backbone', 'jquery', 'underscore', 'routers/default', 'collections/task
             });
         },
 
-        clear: function(e) {
-            e.preventDefault();
+        clear: function(event) {
+            event.preventDefault();
 
             var ret = true;
             if (this.model.get('tasks_count')) {
