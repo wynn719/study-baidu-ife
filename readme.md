@@ -4,7 +4,7 @@
 
 当然，之前错过了报名，没有导师review代码，只能自己判断代码的优劣性了……
 
-## task0002(原声js)
+## task0002(原生js)
 
 0. 类jquery库 http://zhengbowei.github.io/study-baidu-ife/task0002/util/js/util-0.5.js
 1. 分割爱好 http://zhengbowei.github.io/study-baidu-ife/task0002/task0002_1/task0002_1.html
